@@ -3,11 +3,20 @@
 Server::Server(const std::string &port, const std::string &password) : _alive(1), _ip("127.0.0.1"), _port(port), _password(password)
 {
 	socket_init();
+
 }
 
 Server::~Server()
 {
-
+	mypoll.clear();
+	// std::vector<pollfd>::iterator it = mypoll.begin();
+	// std::vector<pollfd>::iterator ite = mypoll.end();
+	// ite--;
+	// while(it != ite)
+	// {
+	// 	close_con(ite);
+	// 	ite--;
+	// }
 }
 
 void Server::start()
@@ -41,8 +50,9 @@ void Server::start()
 			}
 			if ((it->revents & POLLHUP) == POLLHUP)
 			{
-				std::cout << "Client asking for deconnexion" << std::endl ;
-				exit(0);
+				close_con(it);
+				//deco(it);
+				//exit(0);
 				/*  deconnexion */
 				break;
 			}
@@ -125,19 +135,32 @@ void Server::connecting_client()
 		throw std::runtime_error("Accept : Error when connecting a new client");
 	}
 	mypoll.push_back(polclient);
-	
+	//autheification du client a faire 
 	//class client to create and to insert into a client map of Server class
+	send(polclient.fd, "You are succesfully connected\n", 30, 0);
 
 }
 
 void Server::read_msg(pollfd &client)
 {
-	char buffer[6];
+	char buffer[100];
 	bzero(&buffer, sizeof(buffer));
-	if (recv(client.fd, buffer, 5, 0) < 0)
+	if (recv(client.fd, buffer, 99, 0) < 0)
 		throw std::runtime_error("Error while reading buffer from client.");
 
 	std::cout << buffer ;
+	send(client.fd, buffer, 99, 0);
+	
 	/*if ((client.revents & POLLIN) == POLLIN)
 		std::cout << std::endl;*/
 }
+
+
+void Server::close_con(std::vector<pollfd>::iterator it)
+{
+	close(it->fd);
+	mypoll.erase(it);
+	std::cout << "Client disconnected" << std::endl ;
+}
+
+

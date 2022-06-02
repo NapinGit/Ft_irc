@@ -13,6 +13,8 @@
 #include <vector>
 #include <unistd.h>
 #include <fcntl.h>
+ #include <signal.h> 
+ 
 class Server
 {
 	private:
@@ -35,6 +37,8 @@ class Server
 	void start();
 	void connecting_client();
 	void read_msg(pollfd &client);
+	void close_con(std::vector<pollfd>::iterator it);
+	void signal_handler(int signal);
 	
 	//void stop();
 	//void update();
