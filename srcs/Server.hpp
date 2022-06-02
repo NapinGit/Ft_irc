@@ -10,6 +10,9 @@
 #include <arpa/inet.h> /* pour htons et inet_aton */
 #include <unistd.h> /* pour sleep */
 #include <poll.h>
+#include <vector>
+#include <unistd.h>
+#include <fcntl.h>
 class Server
 {
 	private:
@@ -18,6 +21,7 @@ class Server
 		const std::string _ip;
 		const std::string _port;
 		const std::string _password;
+		std::vector<pollfd>	mypoll;
 
 		void socket_init();
     public:
@@ -25,10 +29,12 @@ class Server
 	//Server(const Server&) = delete;
 	//Server& operator=(const Server&) = delete;
 	//Server(Server&&);
-	//Server& operator=(Server&&);
+	//Server& operator=(Server&);
 	~Server();
 
 	void start();
+	void connecting_client();
+	void read_msg(pollfd &client);
 	
 	//void stop();
 	//void update();

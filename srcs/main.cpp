@@ -8,7 +8,9 @@ int main(int ac, char **av)
         {
             throw std::runtime_error("Usage: ./ircserv <port> <password>");
         }
-        Server Server(av[1], av[2]);
+        Server server_irc(av[1], av[2]);
+        server_irc.start();
+        
         return 0;
     }
     catch(const std::exception &exeption)
