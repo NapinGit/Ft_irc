@@ -146,6 +146,7 @@ void Server::connecting_client()
 	if (getnameinfo((struct sockaddr *)&client_addr, sizeof(client_addr), host, NI_MAXHOST,NULL, 0 , NI_NUMERICHOST | NI_NUMERICSERV ) != 0)
 		throw std::runtime_error("Error while getting hostname on new client.");
 	std::cout << "ici " <<  host << std::endl;
+	//get_client_info(polclient);
 	//autheification du client a faire
 	//Client *new_client = new Client()
 
@@ -164,7 +165,7 @@ void Server::read_msg(pollfd &client)
 	std::cout << buffer ;
 	//send(client.fd, "CAP ACK\n", 99, 0);
 
-	//send(client.fd, buffer, 99, 0);
+	send(client.fd, buffer, 99, 0);
 	/*if ((client.revents & POLLIN) == POLLIN)
 		std::cout << std::endl;*/
 }

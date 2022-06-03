@@ -16,5 +16,6 @@ class Client
 		int get_fd() const;
 		std::string get_user() const;
 		std::string get_nickname() const;
+		void send_to_client();
 };
 #endif
