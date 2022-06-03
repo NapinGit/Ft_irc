@@ -124,6 +124,13 @@ void Server::socket_init()
 
 }
 
+void Server::get_client_info(pollfd &client)
+{
+	char buffer[100];
+	if (recv(client.fd, buffer, 99, 0) < 0)
+		throw std::runtime_error("Error while reading buffer from client.");
+}
+
 void Server::connecting_client()
 {
 	pollfd polclient = {0 , POLLIN, 0};
@@ -135,7 +142,13 @@ void Server::connecting_client()
 		throw std::runtime_error("Accept : Error when connecting a new client");
 	}
 	mypoll.push_back(polclient);
-	//autheification du client a faire 
+	char host[NI_MAXHOST];
+	if (getnameinfo((struct sockaddr *)&client_addr, sizeof(client_addr), host, NI_MAXHOST,NULL, 0 , NI_NUMERICHOST | NI_NUMERICSERV ) != 0)
+		throw std::runtime_error("Error while getting hostname on new client.");
+	std::cout << "ici " <<  host << std::endl;
+	//autheification du client a faire
+	//Client *new_client = new Client()
+
 	//class client to create and to insert into a client map of Server class
 	send(polclient.fd, "You are succesfully connected\n", 30, 0);
 
@@ -149,8 +162,9 @@ void Server::read_msg(pollfd &client)
 		throw std::runtime_error("Error while reading buffer from client.");
 
 	std::cout << buffer ;
-	send(client.fd, buffer, 99, 0);
-	
+	//send(client.fd, "CAP ACK\n", 99, 0);
+
+	//send(client.fd, buffer, 99, 0);
 	/*if ((client.revents & POLLIN) == POLLIN)
 		std::cout << std::endl;*/
 }

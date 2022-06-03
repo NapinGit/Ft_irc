@@ -14,7 +14,9 @@
 #include <unistd.h>
 #include <fcntl.h>
  #include <signal.h> 
- 
+ #include <map>
+ #include <netdb.h>
+ #include "Client.hpp"
 class Server
 {
 	private:
@@ -24,6 +26,7 @@ class Server
 		const std::string _port;
 		const std::string _password;
 		std::vector<pollfd>	mypoll;
+		std::map<int , Client *> clients;
 
 		void socket_init();
     public:
@@ -39,6 +42,8 @@ class Server
 	void read_msg(pollfd &client);
 	void close_con(std::vector<pollfd>::iterator it);
 	void signal_handler(int signal);
+	void get_client_info(pollfd &client);
+
 	
 	//void stop();
 	//void update();
