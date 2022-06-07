@@ -43,8 +43,8 @@ class Server
 	void close_con(std::vector<pollfd>::iterator it);
 	void signal_handler(int signal);
 	void get_client_info(pollfd &client);
+	void reset_revent();
 
-	
 	//void stop();
 	//void update();
 	//std::unique_ptr<Messages::Base> poll();

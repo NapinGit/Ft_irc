@@ -3,7 +3,6 @@
 Server::Server(const std::string &port, const std::string &password) : _alive(1), _ip("127.0.0.1"), _port(port), _password(password)
 {
 	socket_init();
-
 }
 
 Server::~Server()
@@ -24,13 +23,17 @@ void Server::start()
 	pollfd polserv = {_sock, POLLIN, 0};
 	mypoll.push_back(polserv);
 	int i = 0;
+	std::vector<pollfd>::iterator it;
+	std::vector<pollfd>::iterator ite;
 
 	while (_alive)
 	{
+		std::cout << "poll begin" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
-		std::vector<pollfd>::iterator it = mypoll.begin();
-		std::vector<pollfd>::iterator ite = mypoll.end();
+		std::cout << "poll end" << std::endl;
+		it = mypoll.begin();
+		ite = mypoll.end();
 		while(it != ite)
 		{
 			/*if (mypoll.begin() == it)
@@ -70,8 +73,6 @@ void Server::start()
 				//std::cout << "Message of client Read" << std::endl ;
 				//write(socketDialogue, messageEnvoi, strlen(messageEnvoi)
 			}
-
-			
 			it++;
 		}
 		
@@ -79,6 +80,18 @@ void Server::start()
 			exit(0);
 		i++;*/
 
+	}
+}
+
+void Server::reset_revent()
+{
+	std::vector<pollfd>::iterator it = mypoll.begin();
+	std::vector<pollfd>::iterator ite = mypoll.end();
+
+	while (it != ite)
+	{
+		it.base()->revents = 0;
+		it++;
 	}
 }
 
@@ -136,6 +149,7 @@ void Server::connecting_client()
 	pollfd polclient = {0 , POLLIN, 0};
 	struct sockaddr_in client_addr;
 	socklen_t sizeClient_addr = sizeof(client_addr);
+
 	polclient.fd = accept(_sock, (sockaddr *)&client_addr, &sizeClient_addr);
 	if (polclient.fd < 0)
 	{
@@ -145,27 +159,41 @@ void Server::connecting_client()
 	char host[NI_MAXHOST];
 	if (getnameinfo((struct sockaddr *)&client_addr, sizeof(client_addr), host, NI_MAXHOST,NULL, 0 , NI_NUMERICHOST | NI_NUMERICSERV ) != 0)
 		throw std::runtime_error("Error while getting hostname on new client.");
-	std::cout << "ici " <<  host << std::endl;
 	//get_client_info(polclient);
 	//autheification du client a faire
 	//Client *new_client = new Client()
 
 	//class client to create and to insert into a client map of Server class
 	send(polclient.fd, "You are succesfully connected\n", 30, 0);
-
 }
 
 void Server::read_msg(pollfd &client)
 {
 	char buffer[100];
+
 	bzero(&buffer, sizeof(buffer));
 	if (recv(client.fd, buffer, 99, 0) < 0)
 		throw std::runtime_error("Error while reading buffer from client.");
+	std::cout << buffer;
 
-	std::cout << buffer ;
-	//send(client.fd, "CAP ACK\n", 99, 0);
 
-	send(client.fd, buffer, 99, 0);
+	std::string 							buf(buffer);
+	std::map<std::string, std::string> 		cmds;
+	size_t pos = 0;
+	std::string key;
+	while (pos != std::string::npos)
+	{
+		pos = buf.find(" ");
+		while (buffer[pos] != ' ')
+		{
+			words.push_back(text.substr(0, pos));
+			text.erase(0, pos + space_delimiter.length());
+			pos++;
+		}
+	}
+
+	send(client.fd, "\r\n", 2, 0);
+	// send(client.fd, buffer, 99, 0);
 	/*if ((client.revents & POLLIN) == POLLIN)
 		std::cout << std::endl;*/
 }
@@ -177,5 +205,3 @@ void Server::close_con(std::vector<pollfd>::iterator it)
 	mypoll.erase(it);
 	std::cout << "Client disconnected" << std::endl ;
 }
-
-
