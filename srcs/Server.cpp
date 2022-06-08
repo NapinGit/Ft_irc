@@ -17,7 +17,7 @@ Server::Server(const std::string &port,const std::string &password) : _alive(1),
 
 
 	 std::map<std::string, void (*)(Server *, Client *, std::string arg) >::iterator it = cmd.begin();
-	 (it->second)(this, NULL, "yolo");
+	// (it->second)(this, NULL, "yolo");
 	// it++;
 	// (it->second)();
 }
@@ -220,11 +220,40 @@ void Server::read_msg(pollfd &client)
 
 	//send(client.fd, "\r\n", 2, 0);
 	send(client.fd, st.c_str(), st.length(), 0);
+	std::map<int, Client *>::iterator it;
+	it = clients.find(client.fd);
+	cmd_handler(buffer, it->second);
 	// send(client.fd, RPL_WELCOME("mike"), 5000, 0);
 	/*if ((client.revents & POLLIN) == POLLIN)
 		std::cout << std::endl;*/
 }
 
+void Server::cmd_handler(char *buff, Client *cli)
+{
+	std::istringstream                                                                  buffer;
+    std::istringstream                                                                  l;
+    std::string                                                                         line;
+    std::string                                                                         cmdd;
+    std::string                                                                         arg;
+    std::map<std::string, void (*)(Server *serv, Client *cli, std::string arg)>::iterator     it;
+
+    buffer.str(buff);
+    while(std::getline(buffer, line))
+    {
+        l.str(line);
+        std::getline(l, cmdd, ' ');
+        std::cout << "CMD " << cmdd <<  std::endl;
+        std::getline(l, arg);
+        std::cout << "ARG " << arg <<  std::endl;
+        it = cmd.find(cmdd);
+		if (it == cmd.end())
+			NULL;
+		else
+			(it->second)(this, cli, arg);
+        //(it->second)(*this, );
+        l.clear();
+    }
+}
 
 void Server::close_con(std::vector<pollfd>::iterator it)
 {

@@ -4,14 +4,13 @@
 # include <cstring>
 # include <map>
 
-void    dec_buff(char *buff)
+/*void    dec_buff(char *buff)
 {
     std::istringstream                                                                  buffer;
     std::istringstream                                                                  l;
     std::string                                                                         line;
     std::string                                                                         cmdd;
     std::string                                                                         arg;
-    std::map<std::string, void (*)(Server *serv, Client *cli, std::string arg)>::iterator     it;
 
     buffer.str(buff);
     while(std::getline(buffer, line))
@@ -25,4 +24,4 @@ void    dec_buff(char *buff)
         (it->second)(*this, )
         l.clear();
     }
-}
+}*/

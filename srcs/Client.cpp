@@ -49,6 +49,6 @@ void Client::change_nickname(std::string &val)
 
 void Client::change_username(std::string &val)
 {
-    _username = val;
+    _user = val;
 }
 

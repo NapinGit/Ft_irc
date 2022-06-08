@@ -18,6 +18,9 @@
  #include <netdb.h>
  #include "Client.hpp"
  #include "macro.hpp"
+ # include <istream>
+# include <sstream>
+# include <cstring>
 
 // void kill(*obj, int fd, char *arg);
 /*typedef struct 	s_irc
@@ -72,6 +75,7 @@ class Server
 	void read_msg(pollfd &client);
 	void close_con(std::vector<pollfd>::iterator it);
 	void signal_handler(int signal);
+	void cmd_handler(char *buff, Client *cli);
 	void get_client_info(pollfd &client);
 	void reset_revent();
 	void init_cmd();
