@@ -15,12 +15,29 @@ class Client
 	public:
 		Client(const int &fd);
 		~Client();
+		
+		/*
+
+			Accessor
+
+		*/
+
 		int get_fd() const;
 		std::string get_user() const;
 		std::string get_nickname() const;
 		void send_to_client();
 		bool get_auth() const;
 		bool get_operator() const;
+
+		/*
+
+			Data modifier
+
+		*/
+
+		void change_auth(bool val);
+		void change_nickname(std::string &val);
+		void change_username(std::string &val);
 
 };
 #endif

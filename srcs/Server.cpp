@@ -1,14 +1,6 @@
 #include "Server.hpp"
 
-/*void kiall(t_irc *obj, int fd, char *arg)
-{
-	std::cout << "coucou \n" << obj->_port << std::endl;
-}*/
 
-// void Server::kialla()
-// {
-// 	std::cout << "coucou" << std::endl ;
-// }
 
 Server::Server(const std::string &port,const std::string &password) : _alive(1), _ip("127.0.0.1"), _port(port), _password(password)
 {
@@ -34,21 +26,16 @@ Server::~Server()
 {
 	mypoll.clear();
 	clients.clear();
-	//cmd.c
-	// std::vector<pollfd>::iterator it = mypoll.begin();
-	// std::vector<pollfd>::iterator ite = mypoll.end();
-	// ite--;
-	// while(it != ite)
-	// {
-	// 	close_con(ite);
-	// 	ite--;
-	// }
+
 }
 
 
 
 void Server::init_cmd()
 {
+	cmd.insert(std::make_pair("PASS", &pass_cmd));
+	cmd.insert(std::make_pair("NICK", &nick_cmd));
+	cmd.insert(std::make_pair("USER", &user_cmd));
 	cmd.insert(std::make_pair("KILL", &kill_cmd));
 	//cmd.insert(std::make_pair("KIALL", &Server::kialla));
 
@@ -244,4 +231,9 @@ void Server::close_con(std::vector<pollfd>::iterator it)
 	close(it->fd);
 	mypoll.erase(it);
 	std::cout << "Client disconnected" << std::endl ;
+}
+
+std::string Server::get_password() const
+{
+	return (_password);
 }

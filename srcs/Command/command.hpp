@@ -12,8 +12,8 @@ class Client;
 
 */
 
-// void pass_cmd(Server *serv, Client *cli, std::string arg);
-// void nick_cmd(Server *serv, Client *cli, std::string arg);
+ void pass_cmd(Server *serv, Client *cli, std::string arg);
+ void nick_cmd(Server *serv, Client *cli, std::string arg);
 
 /*
 
@@ -43,7 +43,7 @@ void kill_cmd(Server *serv, Client *cli, std::string arg);
 
 // void join_cmd(Server *serv, Client *cli, std::string arg);
 // void privmsg_cmd(Server *serv, Client *cli, std::string arg);
-// void user_cmd(Server *serv, Client *cli, std::string arg);
+ void user_cmd(Server *serv, Client *cli, std::string arg);
 // void ping_cmd(Server *serv, Client *cli, std::string arg);
 // void quit_cmd(Server *serv, Client *cli, std::string arg);
 

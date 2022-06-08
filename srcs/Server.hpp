@@ -79,6 +79,8 @@ class Server
 	//void stop();
 	//void update();
 	//std::unique_ptr<Messages::Base> poll();
+	
+	std::string get_password() const;
 
 	// void kiall();
 	// void kialla();

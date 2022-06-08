@@ -36,3 +36,19 @@ bool Client::get_operator() const
 {
     return (_operator);
 }
+
+void Client::change_auth(bool val)
+{
+    _auth = val;
+}
+
+void Client::change_nickname(std::string &val)
+{
+    _nickname = val;
+}
+
+void Client::change_username(std::string &val)
+{
+    _username = val;
+}
+
