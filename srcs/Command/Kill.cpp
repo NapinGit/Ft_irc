@@ -1,6 +1,6 @@
 #include "command.hpp"
 
-void kiall(t_irc *obj, int fd, char *arg)
+void kill_cmd(Server *serv, Client *cli, std::string arg)
 {
-	std::cout << "coucou \n" << obj->_port << std::endl;
+	std::cout << "coucou \n" << std::endl;
 }

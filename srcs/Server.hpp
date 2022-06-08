@@ -20,7 +20,7 @@
  #include "macro.hpp"
 
 // void kill(*obj, int fd, char *arg);
-typedef struct 	s_irc
+/*typedef struct 	s_irc
 {
 	bool 								_alive;
 	int 								_sock;
@@ -31,7 +31,7 @@ typedef struct 	s_irc
 	std::map<int , Client *> 			clients;
 	std::map <std::string, void (*)(struct s_irc *obj, int fd, char *arg)> 	cmd;
 
-}				t_irc;
+}				t_irc;*/
 
  #include "Command/command.hpp"
 
@@ -41,18 +41,19 @@ class Server
 		// typedef std::vector<pollfd> obj->mypoll;
 
 	private:
-		t_irc obj;
+		//t_irc obj;
 
 
-		// bool _alive;
-		// int _sock;
+		 bool _alive;
+		 int _sock;
 
-		// const std::string _ip;
-		// const std::string _port;
-		// const std::string _password;
-		// std::vector<pollfd>	mypoll;
-		// std::map<int , Client *> clients;
-		// std::map <std::string, void (*)()> cmd;
+		 const std::string _ip;
+		 const std::string _port;
+		 const std::string _password;
+		 std::vector<pollfd>	mypoll;
+		 std::map<int , Client *> clients;
+		 std::map <std::string, void (*)(Server *serv, Client *cli, std::string arg)> 	cmd;
+		 //std::map <std::string, void (*)()> cmd;
 
 		void socket_init();
     public:
@@ -63,6 +64,7 @@ class Server
 	//Server& operator=(const Server&) = delete;
 	//Server(Server&&);
 	//Server& operator=(Server&);
+	//Server* operator*(Server&){return (this);};
 	~Server();
 
 	void start();

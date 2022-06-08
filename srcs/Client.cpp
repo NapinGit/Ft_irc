@@ -1,7 +1,7 @@
 #include "Client.hpp"
 
-Client::Client(const std::string &nickname, const std::string &user,const int &fd):
-_nickname(nickname), _user(user), _fd(fd)
+Client::Client(const int &fd):
+_auth(false), _operator(false), _nickname(""), _user(""), _fd(fd)
 {
 
 }
@@ -27,3 +27,12 @@ std::string Client::get_nickname() const
     return (_nickname);
 }
 
+bool Client::get_auth() const
+{
+    return (_auth);
+}
+
+bool Client::get_operator() const
+{
+    return (_operator);
+}
