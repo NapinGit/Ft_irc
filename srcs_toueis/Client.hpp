@@ -13,6 +13,7 @@ class Client
 		bool				_auth;
 		bool				_operator;
 		std::string     	_nickname;
+		std::string     	_hostname;
 		std::string     	_user;
 		const int	        _fd;
 
@@ -30,6 +31,7 @@ class Client
 		int get_fd() const;
 		std::string get_user() const;
 		std::string get_nickname() const;
+		std::string get_hostname() const;
 		void send_to_client(Client *from, const std::string msg);
 		void send_to_client(Client *from, const char *msg);
 		bool get_auth() const;
@@ -45,6 +47,7 @@ class Client
 		void change_auth(bool val);
 		void change_nickname(std::string &val);
 		void change_username(std::string &val);
+		void change_hostname(std::string &val);
 
 };
 #endif

@@ -32,6 +32,8 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
             c->add(cli);
             cli->add_channel(c);
             serv->_channels.insert(std::make_pair(chan, c));
+            c->rpl_join(cli);
+            c->rpl_namreply(cli);
         }
         else
         {
@@ -39,9 +41,9 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
             it = (serv->_channels).find(chan);
             (it->second)->add(cli);
             cli->add_channel((it->second));
-            (it->second)->send_to_chan(cli, "I joining the the channel\n");
+            (it->second)->rpl_join(cli);
+            (it->second)->rpl_namreply(cli);
         }
-    	send(cli->get_fd(), "366 \r\n", 6, 0);
     }
     bloc.clear();
 

@@ -38,6 +38,8 @@ void Server::init_cmd()
 	cmd.insert(std::make_pair("USER", &user_cmd));
 	cmd.insert(std::make_pair("KILL", &kill_cmd));
 	cmd.insert(std::make_pair("JOIN", &join_cmd));
+	cmd.insert(std::make_pair("PING", &ping_cmd));
+	cmd.insert(std::make_pair("PRIVMSG", &privmsg_cmd));
 	//cmd.insert(std::make_pair("KIALL", &Server::kialla));
 
 
@@ -62,10 +64,10 @@ void Server::start()
 
 	while (_alive)
 	{
-		std::cout << "poll begin" << std::endl;
+		// std::cout << "poll begin" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
-		std::cout << "poll end" << std::endl;
+		// std::cout << "poll end" << std::endl;
 		it = mypoll.begin();
 		ite = mypoll.end();
 		while(it != ite)
@@ -219,7 +221,7 @@ void Server::read_msg(pollfd &client)
 	//buffer = buffer + "\r\n";
 	//sprintf(buffer , " has joined channel.\n");
 
-	//send(client.fd, "\r\n", 2, 0);
+	send(client.fd, "\r\n", 2, 0);
 	// send(client.fd, st.c_str(), st.length(), 0);
 	std::map<int, Client *>::iterator it;
 	it = clients.find(client.fd);
@@ -238,7 +240,7 @@ void Server::cmd_handler(char *buff, Client *cli)
     std::string                                                                         arg;
     std::map<std::string, void (*)(Server *serv, Client *cli, std::string arg)>::iterator     it;
 
-	print_channelnclients();
+	// print_channelnclients();
     buffer.str(buff);
     while(std::getline(buffer, line))
     {
@@ -246,7 +248,9 @@ void Server::cmd_handler(char *buff, Client *cli)
         std::getline(l, cmdd, ' ');
         // std::cout << "CMD " << cmdd <<  std::endl;
         std::getline(l, arg);
-        // std::cout << "ARG " << arg <<  std::endl;
+		if (arg[arg.size() - 1] == '\r')
+			arg.erase((arg.size() - 1), 1);
+        // std::cout << "ARG" << arg <<  std::endl;
         it = cmd.find(cmdd);
 		if (it == cmd.end())
 			NULL;

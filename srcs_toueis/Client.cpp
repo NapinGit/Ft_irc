@@ -4,7 +4,7 @@
 class Channel;
 
 Client::Client(const int &fd):
-_auth(false), _operator(false), _nickname(""), _user(""), _fd(fd)
+_auth(false), _operator(false), _nickname(""), _hostname(""), _user(""), _fd(fd)
 {
 
 }
@@ -31,9 +31,8 @@ std::string Client::get_user() const
 
 void Client::send_to_client(Client *from, const char *msg)
 {
-    std::cout << "msg:" << msg << std::endl;
     send(_fd, ":", 1, 0);
-    send(_fd, from->get_nickname().c_str(), _nickname.size()-1, 0);
+    send(_fd, from->get_nickname().c_str(), from->get_nickname().size()-1, 0);
     send(_fd, " PRIVMSG ", 9, 0);
     send(_fd, _nickname.c_str(), _nickname.size(), 0);
     send(_fd, " :", 2, 0);
@@ -43,9 +42,8 @@ void Client::send_to_client(Client *from, const char *msg)
 
 void Client::send_to_client(Client *from, const std::string msg)
 {
-    std::cout << "msg:" << msg.c_str() << std::endl;
     send(_fd, ":", 1, 0);
-    send(_fd, from->get_nickname().c_str(), _nickname.size()-1, 0);
+    send(_fd, from->get_nickname().c_str(), from->get_nickname().size()-1, 0);
     send(_fd, " PRIVMSG ", 9, 0);
     send(_fd, _nickname.c_str(), _nickname.size(), 0);
     send(_fd, " :", 2, 0);
@@ -56,6 +54,11 @@ void Client::send_to_client(Client *from, const std::string msg)
 std::string Client::get_nickname() const
 {
     return (_nickname);
+}
+
+std::string Client::get_hostname() const
+{
+    return (_hostname);
 }
 
 bool Client::get_auth() const
@@ -83,3 +86,7 @@ void Client::change_username(std::string &val)
     _user = val;
 }
 
+void Client::change_hostname(std::string &val)
+{
+    _hostname = val;
+}

@@ -51,7 +51,7 @@ void Channel::print_clients()
 	}
 }
 
-std::string Channel::get_name()
+std::string Channel::get_name() const
 {
 	return (_name);
 }
@@ -63,7 +63,82 @@ void Channel::send_to_chan(Client *from, std::string msg)
 
 	while (it != ite)
 	{
-		(*it)->send_to_client(from, msg);
+		if (from != (*it))
+		{
+	        std::cout << "ARG" << from->get_nickname() <<  std::endl;
+			send((*it)->get_fd(), ":", 1, 0);
+			send((*it)->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+			send((*it)->get_fd(), " PRIVMSG #", 10, 0);
+			send((*it)->get_fd(), _name.c_str(), _name.size(), 0);
+			send((*it)->get_fd(), " :", 2, 0);
+			send((*it)->get_fd(), msg.c_str(), msg.size(), 0);
+			send((*it)->get_fd(), "\r\n", 2, 0);
+		}
 		it++;
 	}
+}
+
+void Channel::rpl_join(Client *from)
+{
+	std::vector<Client *>::iterator it = _clients.begin();
+	std::vector<Client *>::iterator ite = _clients.end();
+
+	// rpl_namreply(from);
+	while (it != ite)
+	{
+		// if ((*it) != from)
+		// {
+			send((*it)->get_fd(), ":", 1, 0);
+			send((*it)->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+			send((*it)->get_fd(), "!", 1, 0);
+			send((*it)->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+			send((*it)->get_fd(), "@", 1, 0);
+			send((*it)->get_fd(),  from->get_hostname().c_str(), from->get_hostname().size(), 0);
+			send((*it)->get_fd(), " JOIN #", 7, 0);
+			send((*it)->get_fd(), _name.c_str(), _name.size(), 0);
+			send((*it)->get_fd(), "\r\n", 2, 0);
+		// }
+		it++;
+	}
+}
+
+void Channel::rpl_namreply(Client *from)
+{
+	std::vector<Client *>::iterator it = _clients.begin();
+	std::vector<Client *>::iterator ite = _clients.end();
+
+	send(from->get_fd(), ":", 1, 0);
+
+	send(from->get_fd(), "353 ", 4, 0);
+	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+	send(from->get_fd(), " = #", 4, 0);
+	send(from->get_fd(), _name.c_str(), _name.size(), 0);
+	send(from->get_fd(), " :", 2, 0);
+
+	while (it != ite)
+	{
+		send(from->get_fd(), (*it)->get_nickname().c_str(), (*it)->get_nickname().size(), 0);
+		if (it != ite)
+			send(from->get_fd(), " ", 1, 0);
+		it++;
+	}
+	send(from->get_fd(), "\r\n", 2, 0);
+	send(from->get_fd(), "366 ", 4, 0);
+	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+	send(from->get_fd(), " ", 1, 0);
+	send(from->get_fd(), _name.c_str(), _name.size(), 0);
+	send(from->get_fd(), " :End of /NAMES list.", 21, 0);
+	send(from->get_fd(), "\r\n", 2, 0);
+
+}
+
+std::string Channel::get_hostname() const
+{
+	return (_hostname);
+}
+
+
+std::string Channel::change_hostname(const std::string &val)
+{
+	_hostname = val;
 }
