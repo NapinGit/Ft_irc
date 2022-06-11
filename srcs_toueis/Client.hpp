@@ -13,8 +13,8 @@ class Client
 		bool				_auth;
 		bool				_operator;
 		std::string     	_nickname;
+		std::string     	_username;
 		std::string     	_hostname;
-		std::string     	_user;
 		const int	        _fd;
 
 	public:
@@ -29,8 +29,8 @@ class Client
 		*/
 
 		int get_fd() const;
-		std::string get_user() const;
 		std::string get_nickname() const;
+		std::string get_username() const;
 		std::string get_hostname() const;
 		void send_to_client(Client *from, const std::string msg);
 		void send_to_client(Client *from, const char *msg);

@@ -2,7 +2,7 @@
 
 
 
-Server::Server(const std::string &port,const std::string &password) : _alive(1), _ip("127.0.0.1"), _port(port), _password(password)
+Server::Server(const std::string &port,const std::string &password) : _alive(1), _hostname("127.0.0.1"), _port(port), _password(password)
 {
 
 
@@ -38,8 +38,10 @@ void Server::init_cmd()
 	cmd.insert(std::make_pair("USER", &user_cmd));
 	cmd.insert(std::make_pair("KILL", &kill_cmd));
 	cmd.insert(std::make_pair("JOIN", &join_cmd));
-	cmd.insert(std::make_pair("PING", &ping_cmd));
+	cmd.insert(std::make_pair("PING", &pong_cmd));
+	// cmd.insert(std::make_pair("PONG", &ping_cmd));
 	cmd.insert(std::make_pair("PRIVMSG", &privmsg_cmd));
+	cmd.insert(std::make_pair("MODE", &mode_cmd));
 	//cmd.insert(std::make_pair("KIALL", &Server::kialla));
 
 
@@ -293,4 +295,9 @@ void Server::close_con(std::vector<pollfd>::iterator it)
 std::string Server::get_password() const
 {
 	return (_password);
+}
+
+std::string Server::get_hostname() const
+{
+	return (_hostname);
 }

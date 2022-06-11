@@ -51,7 +51,8 @@ class Server
 		 bool _alive;
 		 int _sock;
 
-		 const std::string 																_ip;
+		//  const std::string 																_ip;
+		 const std::string 																_hostname;
 		 const std::string 																_port;
 		 const std::string 																_password;
 		 std::vector<pollfd>															mypoll;
@@ -87,6 +88,7 @@ class Server
 	//std::unique_ptr<Messages::Base> poll();
 	
 	std::string get_password() const;
+	std::string get_hostname() const;
 	void print_channelnclients();
 
 	// void kiall();

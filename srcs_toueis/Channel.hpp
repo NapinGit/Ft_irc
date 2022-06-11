@@ -23,7 +23,7 @@ class Channel
 		std::string get_name() const;
 		std::string get_hostname() const;
 
-		std::string change_hostname(const std::string &val);
+		void change_hostname(const std::string &val);
 
 		
 		void send_to_chan(Client *from, std::string msg);

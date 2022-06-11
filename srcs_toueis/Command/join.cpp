@@ -30,6 +30,7 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
             std::cout << "create new channel" << std::endl;
             Channel *c = new Channel(chan, cli);
             c->add(cli);
+            c->change_hostname(serv->get_hostname());
             cli->add_channel(c);
             serv->_channels.insert(std::make_pair(chan, c));
             c->rpl_join(cli);

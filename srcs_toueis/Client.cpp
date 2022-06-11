@@ -4,7 +4,7 @@
 class Channel;
 
 Client::Client(const int &fd):
-_auth(false), _operator(false), _nickname(""), _hostname(""), _user(""), _fd(fd)
+_auth(false), _operator(false), _nickname(""), _hostname(""), _username(""), _fd(fd)
 {
 
 }
@@ -24,9 +24,9 @@ void Client::add_channel(Channel *chan)
     _channels.insert(std::make_pair(chan->get_name(), chan));
 }
 
-std::string Client::get_user() const
+std::string Client::get_username() const
 {
-    return (_user);
+    return (_username);
 }
 
 void Client::send_to_client(Client *from, const char *msg)
@@ -83,7 +83,7 @@ void Client::change_nickname(std::string &val)
 
 void Client::change_username(std::string &val)
 {
-    _user = val;
+    _username = val;
 }
 
 void Client::change_hostname(std::string &val)
