@@ -42,6 +42,7 @@ void Server::init_cmd()
 	// cmd.insert(std::make_pair("PONG", &ping_cmd));
 	cmd.insert(std::make_pair("PRIVMSG", &privmsg_cmd));
 	cmd.insert(std::make_pair("MODE", &mode_cmd));
+	cmd.insert(std::make_pair("CAP", &cap_cmd));
 	//cmd.insert(std::make_pair("KIALL", &Server::kialla));
 
 
@@ -64,6 +65,7 @@ void Server::start()
 	std::vector<pollfd>::iterator it;
 	std::vector<pollfd>::iterator ite;
 
+	ite = mypoll.end();
 	while (_alive)
 	{
 		// std::cout << "poll begin" << std::endl;
@@ -72,8 +74,11 @@ void Server::start()
 		// std::cout << "poll end" << std::endl;
 		it = mypoll.begin();
 		ite = mypoll.end();
+		int i;
+		i = 0;
 		while(it != ite)
 		{
+			std::cout << "client = " << i << std::endl;
 			/*if (mypoll.begin() == it)
 			{
 				std::cout << it->revents << " revent serv" << std::endl ;
@@ -89,7 +94,7 @@ void Server::start()
 			{
 				NULL;
 			}
-			if ((it->revents & POLLHUP) == POLLHUP)
+			else if ((it->revents & POLLHUP) == POLLHUP)
 			{
 				close_con(it);
 				//deco(it);
@@ -97,7 +102,7 @@ void Server::start()
 				/*  deconnexion */
 				break;
 			}
-			if ((it->revents & POLLIN) == POLLIN)
+			else if ((it->revents & POLLIN) == POLLIN)
 			{
 				if (it->fd == _sock)
 				{
@@ -111,6 +116,7 @@ void Server::start()
 				//std::cout << "Message of client Read" << std::endl ;
 				//write(socketDialogue, messageEnvoi, strlen(messageEnvoi)
 			}
+			i++;
 			it++;
 		}
 		
@@ -168,7 +174,7 @@ void Server::socket_init()
 		throw std::runtime_error("Socket: Error while binding socket");
 	}
 
-	if(listen(_sock, 5) < 0)
+	if(listen(_sock, 50) < 0)
 	{
 		throw std::runtime_error("Listen: Error when listening on socket");
 	}
@@ -205,17 +211,17 @@ void Server::connecting_client()
 
 	//class client to create and to insert into a client map of Server class
 	read_msg(polclient);
-	send(polclient.fd, "001 \r\n", 6, 0);
-	send(polclient.fd, "You are succesfully connected\r\n", 500, 0);
-	
+
+
+	// send(polclient.fd, "You are succesfully connected\r\n", 500, 0);	
 }
 
 void Server::read_msg(pollfd &client)
 {
-	char buffer[100];
+	char buffer[1000];
 
 	bzero(&buffer, sizeof(buffer));
-	if (recv(client.fd, buffer, 99, 0) < 0)
+	if (recv(client.fd, buffer, 999, 0) < 0)
 		throw std::runtime_error("Error while reading buffer from client.");
 	std::cout << buffer;
 	std::string st(buffer);
@@ -223,7 +229,7 @@ void Server::read_msg(pollfd &client)
 	//buffer = buffer + "\r\n";
 	//sprintf(buffer , " has joined channel.\n");
 
-	send(client.fd, "\r\n", 2, 0);
+	// send(client.fd, "\r\n", 2, 0);
 	// send(client.fd, st.c_str(), st.length(), 0);
 	std::map<int, Client *>::iterator it;
 	it = clients.find(client.fd);
@@ -270,7 +276,7 @@ void Server::print_channelnclients()
 
 	for(itc = _channels.begin(), itce = _channels.end(); itc != itce; itc++)
 	{
-		std::cout << "channel: " << (*itc).first << std::endl;
+		// std::cout << "channel: " << (*itc).first << std::endl;
 		(*itc).second->print_clients();
 	}
 }

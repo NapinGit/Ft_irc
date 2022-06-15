@@ -24,7 +24,7 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
     while (std::getline(bloc, chan, ','))
     {
         chan.erase(0,1);
-        std::cout << "channel = " << chan << std::endl;
+        // std::cout << "channel = " << chan << std::endl;
         if ((serv->_channels).find(chan) == (serv->_channels).end())
         {
             std::cout << "create new channel" << std::endl;

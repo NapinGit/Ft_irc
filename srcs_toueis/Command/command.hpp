@@ -13,6 +13,7 @@ class Client;
 
 */
 
+ void cap_cmd(Server *serv, Client *cli, std::string arg);
  void pass_cmd(Server *serv, Client *cli, std::string arg);
  void nick_cmd(Server *serv, Client *cli, std::string arg);
 
