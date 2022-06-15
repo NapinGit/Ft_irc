@@ -36,7 +36,11 @@ void Channel::del(Client *cli)
 	std::vector<Client *>::iterator it = find(_clients.begin(), _clients.end(), cli);
 
 	if (it != _clients.end())
+	{
+		//leave channel message to all other clients on channel
 		_clients.erase(find(_clients.begin(), _clients.end(), cli));
+	}
+
 }
 
 void Channel::print_clients()
