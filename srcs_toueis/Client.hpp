@@ -5,6 +5,8 @@
 # include <sys/types.h>
 # include <map>
 # include "Channel.hpp"
+#include <poll.h>
+
 class Channel;
 
 class Client
@@ -16,6 +18,7 @@ class Client
 		std::string     	_username;
 		std::string     	_hostname;
 		const int	        _fd;
+		pollfd				_pollfd;
 
 	public:
 		std::map<std::string , Channel *> 	_channels;
@@ -36,6 +39,7 @@ class Client
 		void send_to_client(Client *from, const char *msg);
 		bool get_auth() const;
 		bool get_operator() const;
+		pollfd get_pollfd() const;
 
 		/*
 

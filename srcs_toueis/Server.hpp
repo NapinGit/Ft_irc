@@ -56,11 +56,11 @@ class Server
 		 const std::string 																_port;
 		 const std::string 																_password;
 		 std::vector<pollfd>															mypoll;
-		 std::map<int , Client *> 														clients;
 		 //std::map <std::string, void (*)()> cmd;
 
 		void socket_init();
     public:
+		std::map<int , Client *> 														clients;
 		std::map <std::string, void (*)(Server *serv, Client *cli, std::string arg)> 	cmd;
 		std::map<std::string, Channel *>												_channels;
 
@@ -77,6 +77,7 @@ class Server
 	void connecting_client();
 	void read_msg(pollfd &client);
 	void close_con(std::vector<pollfd>::iterator it);
+	void close_con(Client *cli);
 	void signal_handler(int signal);
 	void cmd_handler(char *buff, Client *cli);
 	void get_client_info(pollfd &client);

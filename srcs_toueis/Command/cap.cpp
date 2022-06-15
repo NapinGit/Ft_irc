@@ -11,5 +11,9 @@ void cap_cmd(Server *serv, Client *cli, std::string arg)
             std::string str = "001 " + cli->get_nickname() + " Welcome to my Internet Relay 42Network\r\n";
          	send(cli->get_fd(), str.c_str(), str.length(), 0);
         }
+        else
+        {
+         	send(cli->get_fd(), "Error auth\r\n", 12, 0);
+        }
     }
 }

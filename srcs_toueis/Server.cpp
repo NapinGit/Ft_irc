@@ -43,6 +43,7 @@ void Server::init_cmd()
 	cmd.insert(std::make_pair("PRIVMSG", &privmsg_cmd));
 	cmd.insert(std::make_pair("MODE", &mode_cmd));
 	cmd.insert(std::make_pair("CAP", &cap_cmd));
+	cmd.insert(std::make_pair("QUIT", &quit_cmd));
 	//cmd.insert(std::make_pair("KIALL", &Server::kialla));
 
 
@@ -74,11 +75,9 @@ void Server::start()
 		// std::cout << "poll end" << std::endl;
 		it = mypoll.begin();
 		ite = mypoll.end();
-		int i;
-		i = 0;
 		while(it != ite)
 		{
-			std::cout << "client = " << i << std::endl;
+			// std::cout << "client = " << i << std::endl;
 			/*if (mypoll.begin() == it)
 			{
 				std::cout << it->revents << " revent serv" << std::endl ;
@@ -108,7 +107,7 @@ void Server::start()
 				{
 					/* cree une nouvelle connexion */
 					connecting_client();
-					std::cout << "New client connected" << std::endl ;
+					std::cout << "New client connected" << std::endl;
 					break;
 				}
 				/* analyse de l'entree*/
@@ -116,14 +115,8 @@ void Server::start()
 				//std::cout << "Message of client Read" << std::endl ;
 				//write(socketDialogue, messageEnvoi, strlen(messageEnvoi)
 			}
-			i++;
 			it++;
 		}
-		
-		/*if (i == 2)
-			exit(0);
-		i++;*/
-
 	}
 }
 
@@ -295,6 +288,34 @@ void Server::close_con(std::vector<pollfd>::iterator it)
 
 	close(it->fd);
 	mypoll.erase(it);
+	std::cout << "Client disconnected" << std::endl ;
+}
+
+void Server::close_con(Client *cli)                                                                                           
+{
+	std::map<std::string , Channel *>::iterator itchan;
+	std::map<std::string , Channel *>::iterator itchane;
+	std::vector<pollfd>::iterator itpoll;
+	std::vector<pollfd>::iterator itpolle;
+
+	for (itchan = cli->_channels.begin(), itchane = cli->_channels.end(); itchan != itchane; itchan++)
+	{
+		itchan->second->del(cli);
+	}
+	// itc->second->add_channel
+	close(cli->get_fd());
+
+	itpoll = mypoll.begin();
+	itpolle = mypoll.end();
+
+	while (itpoll->fd != cli->get_fd() && itpoll != itpolle)
+		itpoll++;
+	if (itpoll != itpolle)
+	{
+		mypoll.erase(itpoll);
+		clients.erase(clients.find(cli->get_fd()));
+	}
+	
 	std::cout << "Client disconnected" << std::endl ;
 }
 

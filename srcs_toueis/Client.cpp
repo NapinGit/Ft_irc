@@ -32,7 +32,7 @@ std::string Client::get_username() const
 void Client::send_to_client(Client *from, const char *msg)
 {
     send(_fd, ":", 1, 0);
-    send(_fd, from->get_nickname().c_str(), from->get_nickname().size()-1, 0);
+    send(_fd, from->get_nickname().c_str(), from->get_nickname().size(), 0);
     send(_fd, " PRIVMSG ", 9, 0);
     send(_fd, _nickname.c_str(), _nickname.size(), 0);
     send(_fd, " :", 2, 0);
@@ -43,7 +43,7 @@ void Client::send_to_client(Client *from, const char *msg)
 void Client::send_to_client(Client *from, const std::string msg)
 {
     send(_fd, ":", 1, 0);
-    send(_fd, from->get_nickname().c_str(), from->get_nickname().size()-1, 0);
+    send(_fd, from->get_nickname().c_str(), from->get_nickname().size(), 0);
     send(_fd, " PRIVMSG ", 9, 0);
     send(_fd, _nickname.c_str(), _nickname.size(), 0);
     send(_fd, " :", 2, 0);
@@ -69,6 +69,11 @@ bool Client::get_auth() const
 bool Client::get_operator() const
 {
     return (_operator);
+}
+
+pollfd Client::get_pollfd() const
+{
+    return (_pollfd);
 }
 
 void Client::change_auth(bool val)

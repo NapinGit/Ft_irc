@@ -129,7 +129,7 @@ void Channel::rpl_namreply(Client *from)
 	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
 	send(from->get_fd(), " = #", 4, 0);
 	send(from->get_fd(), _name.c_str(), _name.size(), 0);
-	send(from->get_fd(), " :@", 3, 0);
+	send(from->get_fd(), " :", 2, 0);
 	while (it != ite)
 	{
 		send(from->get_fd(), (*it)->get_nickname().c_str(), (*it)->get_nickname().size(), 0);
