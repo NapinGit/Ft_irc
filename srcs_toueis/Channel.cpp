@@ -25,6 +25,13 @@ bool Channel::present_or_not(Client *cli)
 	return true;
 }
 
+bool Channel::present_or_not_operators(Client *cli)
+{
+	if (find(_operators.begin(), _operators.end(), cli) == _operators.end())
+		return false;
+	return true;
+}
+
 void Channel::add(Client *cli)
 {
 	if (!present_or_not(cli))
@@ -42,6 +49,24 @@ void Channel::del(Client *cli)
 	}
 
 }
+
+void Channel::add_operator(Client *cli)
+{
+	if (!present_or_not_operators(cli))
+		_operators.push_back(cli);
+}
+
+void Channel::del_operator(Client *cli)
+{
+	std::vector<Client *>::iterator it = find(_operators.begin(), _operators.end(), cli);
+
+	if (it != _operators.end())
+	{
+		_operators.erase(find(_operators.begin(), _operators.end(), cli));
+	}
+
+}
+
 
 void Channel::print_clients()
 {
@@ -116,40 +141,62 @@ void Channel::rpl_namreply(Client *from)
 	std::vector<Client *>::iterator ite = _clients.end();
 
 //topic reply
-	send(from->get_fd(), ":", 1, 0);
-	send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
-	send(from->get_fd(), " 332 ", 5, 0);
-	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
-	send(from->get_fd(), " #", 2, 0);
-	send(from->get_fd(), _name.c_str(), _name.size(), 0);
-	send(from->get_fd(), " :", 2, 0);
-	send(from->get_fd(), "TOPIC", 5, 0);
-	send(from->get_fd(), "\r\n", 2, 0);
+
+	// send(from->get_fd(), ":", 1, 0);
+	// send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
+	// send(from->get_fd(), " 332 ", 5, 0);
+	// send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+	// send(from->get_fd(), " #", 2, 0);
+	// send(from->get_fd(), _name.c_str(), _name.size(), 0);
+	// send(from->get_fd(), " :", 2, 0);
+	// send(from->get_fd(), "TOPIC", 5, 0);
+	// send(from->get_fd(), "\r\n", 2, 0);
+
 
 //list of user on channel rpl and endoflist
-	send(from->get_fd(), ":", 1, 0);
-	send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
-	send(from->get_fd(), " 353 ", 5, 0);
-	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
-	send(from->get_fd(), " = #", 4, 0);
-	send(from->get_fd(), _name.c_str(), _name.size(), 0);
-	send(from->get_fd(), " :", 2, 0);
+	//begin list
+	std::string list = ":" + _hostname + " 353 " + from->get_nickname() + " = #" + _name + " :";
 	while (it != ite)
 	{
-		send(from->get_fd(), (*it)->get_nickname().c_str(), (*it)->get_nickname().size(), 0);
+		if (present_or_not_operators(*it))
+			list = list + " @" + (*it)->get_nickname();
+		else
+			list = list + " " + (*it)->get_nickname();
 		it++;
-		if (it != ite)
-			send(from->get_fd(), " ", 1, 0);
 	}
-	send(from->get_fd(), "\r\n", 2, 0);
-	send(from->get_fd(), ":", 1, 0);
-	send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
-	send(from->get_fd(), " 366 ", 5, 0);
-	send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
-	send(from->get_fd(), " #", 2, 0);
-	send(from->get_fd(), _name.c_str(), _name.size(), 0);
-	send(from->get_fd(), " :End of NAMES list", 19, 0);
-	send(from->get_fd(), "\r\n", 2, 0);
+	list = list + "\r\n";
+	send(from->get_fd(), list.c_str(), list.length(), 0);
+
+	//end list
+	list.clear();
+	list = ":" + _hostname + " 366 " + from->get_nickname() + " #" + _name +  " :End of NAMES list\r\n";
+	send(from->get_fd(), list.c_str(), list.length(), 0);
+
+	// send(from->get_fd(), ":", 1, 0);
+	// send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
+	// send(from->get_fd(), " 353 ", 5, 0);
+	// send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+	// send(from->get_fd(), " = #", 4, 0);
+	// send(from->get_fd(), _name.c_str(), _name.size(), 0);
+	// send(from->get_fd(), " :", 2, 0);
+	// while (it != ite)
+	// {
+	// 	send(from->get_fd(), (*it)->get_nickname().c_str(), (*it)->get_nickname().size(), 0);
+	// 	it++;
+	// 	if (it != ite)
+	// 		send(from->get_fd(), " ", 1, 0);
+	// }
+	// send(from->get_fd(), "\r\n", 2, 0);
+
+
+	// send(from->get_fd(), ":", 1, 0);
+	// send(from->get_fd(), _hostname.c_str(), _hostname.size(), 0);
+	// send(from->get_fd(), " 366 ", 5, 0);
+	// send(from->get_fd(), from->get_nickname().c_str(), from->get_nickname().size(), 0);
+	// send(from->get_fd(), " #", 2, 0);
+	// send(from->get_fd(), _name.c_str(), _name.size(), 0);
+	// send(from->get_fd(), " :End of NAMES list", 19, 0);
+	// send(from->get_fd(), "\r\n", 2, 0);
 
 }
 

@@ -282,13 +282,15 @@ void Server::close_con(std::vector<pollfd>::iterator it)
 
 	for (itchan = (itc->second)->_channels.begin(), itchane = (itc->second)->_channels.end(); itchan != itchane; itchan++)
 	{
+		if (itchan->second->present_or_not_operators(itc->second))
+			itchan->second->del_operator(itc->second);
 		itchan->second->del(itc->second);
-	}	
+	}
 	// itc->second->add_channel
 
 	close(it->fd);
 	mypoll.erase(it);
-	std::cout << "Client disconnected" << std::endl ;
+	std::cout << "Client disconnectedd111111" << std::endl ;
 }
 
 void Server::close_con(Client *cli)                                                                                           
@@ -316,7 +318,7 @@ void Server::close_con(Client *cli)
 		clients.erase(clients.find(cli->get_fd()));
 	}
 	
-	std::cout << "Client disconnected" << std::endl ;
+	std::cout << "Client disconnecteddd2222222" << std::endl ;
 }
 
 std::string Server::get_password() const

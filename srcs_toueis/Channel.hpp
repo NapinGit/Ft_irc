@@ -10,14 +10,18 @@ class Channel
 		std::string 			_name;
 		std::string 			_hostname;
 		std::vector<Client *> 	_clients;
+		std::vector<Client *> 	_operators;
 	public:
 		Channel(std::string name, Client *cli);
 		~Channel();
 		bool present_or_not(Client *cli);
+		bool present_or_not_operators(Client *cli);
 		
 		void add(Client *cli);
 		void del(Client *cli);
 		
+		void add_operator(Client *cli);
+		void del_operator(Client *cli);
 		void print_clients();
 		
 		std::string get_name() const;
