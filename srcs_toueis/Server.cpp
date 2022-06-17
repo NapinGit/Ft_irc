@@ -172,22 +172,22 @@ void Server::socket_init()
 
 
 
-  	char hostname[80];  
-    struct hostent * host_info;
-    struct in_addr addr;
-    int i = 0;
+//   	char hostname[80];  
+//     struct hostent * host_info;
+//     struct in_addr addr;
+//     int i = 0;
     
-    gethostname ( hostname, 80 ); // gethostbyname function retrieves host information.
-    host_info = gethostbyname ( hostname ); // gethostbyname function retrieves host information.
-  // gethostbyname returns a pointer of type struct hostent.
-  //A null pointer is returned if an error occurs. The specific error number can be known by calling WSAGetLastError.
+//     gethostname ( hostname, 80 ); // gethostbyname function retrieves host information.
+//     host_info = gethostbyname ( hostname ); // gethostbyname function retrieves host information.
+//   // gethostbyname returns a pointer of type struct hostent.
+//   //A null pointer is returned if an error occurs. The specific error number can be known by calling WSAGetLastError.
   
-        std::cout << "Hostname : " << host_info->h_name << std::endl;
-        while ( host_info->h_addr_list[i] != 0 )
-    	{
-            addr.s_addr = *(u_long *) host_info->h_addr_list[i++];
-            std::cout << "IP Address " << inet_ntoa(addr) << std::endl; // inet_ntoa function converts IPv4 address to ASCII string in Internet standard dotted-decimal format.
-        }
+//         std::cout << "Hostname : " << host_info->h_name << std::endl;
+//         while ( host_info->h_addr_list[i] != 0 )
+//     	{
+//             addr.s_addr = *(u_long *) host_info->h_addr_list[i++];
+//             std::cout << "IP Address " << inet_ntoa(addr) << std::endl; // inet_ntoa function converts IPv4 address to ASCII string in Internet standard dotted-decimal format.
+//         }
 
 
 
