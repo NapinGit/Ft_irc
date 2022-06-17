@@ -162,17 +162,50 @@ void Server::socket_init()
 	pointDeRencontreLocal.sin_addr.s_addr = htonl(INADDR_ANY);
 	//std::cout << "port : " << _port << std::endl;
 	pointDeRencontreLocal.sin_port = htons(std::stoi(_port));
+	
+	char buf[80];
+	gethostname(buf, sizeof(buf));
+	struct hostent *phe = gethostbyname((char *)"google.com");
+	// std::cout << "ici ====== " <<  << std::endl;
+
+
+
+
+
+  	char hostname[80];  
+    struct hostent * host_info;
+    struct in_addr addr;
+    int i = 0;
+    
+    gethostname ( hostname, 80 ); // gethostbyname function retrieves host information.
+    host_info = gethostbyname ( hostname ); // gethostbyname function retrieves host information.
+  // gethostbyname returns a pointer of type struct hostent.
+  //A null pointer is returned if an error occurs. The specific error number can be known by calling WSAGetLastError.
+  
+        std::cout << "Hostname : " << host_info->h_name << std::endl;
+        while ( host_info->h_addr_list[i] != 0 )
+    	{
+            addr.s_addr = *(u_long *) host_info->h_addr_list[i++];
+            std::cout << "IP Address " << inet_ntoa(addr) << std::endl; // inet_ntoa function converts IPv4 address to ASCII string in Internet standard dotted-decimal format.
+        }
+
+
+
+
+
+
+
+
+
+
 	if((bind(_sock, (struct sockaddr *)&pointDeRencontreLocal, sizeof(pointDeRencontreLocal))) < 0)
 	{
 		throw std::runtime_error("Socket: Error while binding socket");
 	}
-
 	if(listen(_sock, 50) < 0)
 	{
 		throw std::runtime_error("Listen: Error when listening on socket");
 	}
-
-
 }
 
 void Server::get_client_info(pollfd &client)
@@ -199,7 +232,10 @@ void Server::connecting_client()
 		throw std::runtime_error("Error while getting hostname on new client.");
 	//get_client_info(polclient);
 	//autheification du client a faire
+	std::cout << "mon test   :" << host << std::endl;
 	Client *new_client = new Client(polclient.fd);
+	std::string str = host;
+	new_client->change_hostname(str);
 	clients.insert(std::make_pair(new_client->get_fd(), new_client));
 
 	//class client to create and to insert into a client map of Server class
