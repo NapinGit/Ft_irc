@@ -53,6 +53,7 @@ class Server
 
 		//  const std::string 																_ip;
 		 const std::string 																_hostname;
+		 std::string 																_inhostname;
 		 const std::string 																_port;
 		 const std::string 																_password;
 		 std::vector<pollfd>															mypoll;
@@ -81,7 +82,7 @@ class Server
 	void signal_handler(int signal);
 	void cmd_handler(char *buff, Client *cli);
 	void get_client_info(pollfd &client);
-	void reset_revent();
+	std::string get_interface_ip();
 	void init_cmd();
 
 	//void stop();
@@ -90,6 +91,7 @@ class Server
 	
 	std::string get_password() const;
 	std::string get_hostname() const;
+	std::string get_inhostname() const;
 	void print_channelnclients();
 
 	// void kiall();

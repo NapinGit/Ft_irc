@@ -1,6 +1,7 @@
 #include "Server.hpp"
-
-
+#include <sys/types.h>
+#include <ifaddrs.h>
+#define INTERFACE "wl"
 
 Server::Server(const std::string &port,const std::string &password) : _alive(1), _hostname("127.0.0.1"), _port(port), _password(password)
 {
@@ -120,92 +121,56 @@ void Server::start()
 	}
 }
 
-void Server::reset_revent()
+std::string Server::get_interface_ip()
 {
-	std::vector<pollfd>::iterator it = mypoll.begin();
-	std::vector<pollfd>::iterator ite = mypoll.end();
-
-	while (it != ite)
+    struct ifaddrs* 	addrs = NULL;
+    struct ifaddrs* 	ptr_entry;
+	std::string 		interface_name;
+	char 				buffer[INET_ADDRSTRLEN];
+    
+	if(getifaddrs(&addrs) != 0)
 	{
-		it.base()->revents = 0;
-		it++;
+        std::cout << "ERROR getifaddrs()" << std::endl;
+        return NULL;
+    }
+	ptr_entry  = addrs;
+	while(ptr_entry != NULL)
+	{
+		bzero(&buffer, INET_ADDRSTRLEN);
+		interface_name = std::string(ptr_entry->ifa_name);
+		if (!interface_name.find(INTERFACE)) 												// INTERFACE FOUND ?
+			if( ptr_entry->ifa_addr != NULL && ptr_entry->ifa_addr->sa_family == AF_INET) 	//address non null && IPV4 ?
+			{
+				inet_ntop(ptr_entry->ifa_addr->sa_family,&((struct sockaddr_in*)(ptr_entry->ifa_addr))->sin_addr,buffer,INET_ADDRSTRLEN);
+				break;
+			}
+		ptr_entry = ptr_entry->ifa_next;
 	}
+	return (std::string(buffer));
 }
 
 void Server::socket_init()
 {
+	int 				val = 1;
+	struct sockaddr_in 	pointDeRencontreLocal;
+
 	_sock = socket(PF_INET, SOCK_STREAM, 0); //sock_stream = TCP ; PF_INET = ProtocolFamily
-	if (_sock < 0)
-    {
-        throw std::runtime_error("Socket: Error while creating socket");
-    }
-		int val = 1;
-
-	// Forcefully attaching socket to the port
-	if (setsockopt(_sock, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)))
-		throw std::runtime_error("Error while setting socket options.");
-/*
-
-	
-	 * As requested from subject we set the socket to NON-BLOCKING mode
-	 * allowing it to return any data that the system has in it's read buffer
-	 * for that socket, but, it won't wait for that data.
-	 */
-	if (fcntl(_sock, F_SETFL, O_NONBLOCK) == -1) 
-	{
-		throw std::runtime_error("Error while setting socket to NON-BLOCKING.");
-	}
-
-	struct sockaddr_in pointDeRencontreLocal;
 	bzero(&pointDeRencontreLocal, sizeof(pointDeRencontreLocal));
 	pointDeRencontreLocal.sin_family = PF_INET;
 	pointDeRencontreLocal.sin_addr.s_addr = htonl(INADDR_ANY);
-	//std::cout << "port : " << _port << std::endl;
 	pointDeRencontreLocal.sin_port = htons(std::stoi(_port));
-	
-	char buf[80];
-	gethostname(buf, sizeof(buf));
-	struct hostent *phe = gethostbyname((char *)"google.com");
-	// std::cout << "ici ====== " <<  << std::endl;
+	_inhostname = get_interface_ip();
 
-
-
-
-
-//   	char hostname[80];  
-//     struct hostent * host_info;
-//     struct in_addr addr;
-//     int i = 0;
-    
-//     gethostname ( hostname, 80 ); // gethostbyname function retrieves host information.
-//     host_info = gethostbyname ( hostname ); // gethostbyname function retrieves host information.
-//   // gethostbyname returns a pointer of type struct hostent.
-//   //A null pointer is returned if an error occurs. The specific error number can be known by calling WSAGetLastError.
-  
-//         std::cout << "Hostname : " << host_info->h_name << std::endl;
-//         while ( host_info->h_addr_list[i] != 0 )
-//     	{
-//             addr.s_addr = *(u_long *) host_info->h_addr_list[i++];
-//             std::cout << "IP Address " << inet_ntoa(addr) << std::endl; // inet_ntoa function converts IPv4 address to ASCII string in Internet standard dotted-decimal format.
-//         }
-
-
-
-
-
-
-
-
-
-
+	if (_sock < 0)
+        throw std::runtime_error("Socket: Error while creating socket");
+	if (setsockopt(_sock, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)))
+		throw std::runtime_error("Error while setting socket options.");
+	if (fcntl(_sock, F_SETFL, O_NONBLOCK) == -1) 
+		throw std::runtime_error("Error while setting socket to NON-BLOCKING.");
 	if((bind(_sock, (struct sockaddr *)&pointDeRencontreLocal, sizeof(pointDeRencontreLocal))) < 0)
-	{
 		throw std::runtime_error("Socket: Error while binding socket");
-	}
 	if(listen(_sock, 50) < 0)
-	{
 		throw std::runtime_error("Listen: Error when listening on socket");
-	}
 }
 
 void Server::get_client_info(pollfd &client)
@@ -365,4 +330,9 @@ std::string Server::get_password() const
 std::string Server::get_hostname() const
 {
 	return (_hostname);
+}
+
+std::string Server::get_inhostname() const
+{
+	return (_inhostname);
 }

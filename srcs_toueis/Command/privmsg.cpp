@@ -41,7 +41,8 @@ void privmsg_cmd(Server *serv, Client *cli, std::string arg)
         }
         //envoi du message au client destinataire (itclient)
         std::getline(args, msg);
-        std::string str = ":" + cli->get_nickname() + "!" + cli->get_username() + "@" + cli->get_hostname() + " PRIVMSG " + itclient->second->get_nickname() + " " + msg + "\r\n";
+        std::string str;
+        str = ":" + cli->get_nickname() + "!" + cli->get_username() + "@" + cli->get_hostname() + " PRIVMSG " + itclient->second->get_nickname() + " " + msg + "\r\n";
         send(itclient->second->get_fd(), str.c_str(), str.length(), 0);
     }
 }
