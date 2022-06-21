@@ -4,7 +4,7 @@
 class Channel;
 
 Client::Client(const int &fd):
-_auth(false), _operator(false), _nickname(""), _hostname(""), _username(""), _fd(fd)
+_auth(false), _operator(false), _nickname(""),  _username(""), _hostname(""), _fd(fd)
 {
 
 }

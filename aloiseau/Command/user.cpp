@@ -13,8 +13,7 @@ void user_cmd(Server *serv, Client *cli, std::string arg)
     std::istringstream                          args;
     std::string                                 name;
 
-    std::cout << "mon test2 user ? = " << arg << std::endl;
-
+    (void)serv;
     args.str(arg);
     std::getline(args, name, ' ');
     // std::cout << "ici " << std::endl << name << std::endl;

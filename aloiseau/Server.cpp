@@ -7,7 +7,7 @@ Server::Server(const std::string &port,const std::string &password) : _alive(1),
 {
 	socket_init();
 	init_cmd();
-	std::map<std::string, void (*)(Server *, Client *, std::string arg) >::iterator it = cmd.begin();
+	// std::map<std::string, void (*)(Server *, Client *, std::string arg) >::iterator it = cmd.begin();
 }
 
 Server::~Server()
@@ -51,7 +51,7 @@ void Server::start()
 {
 	pollfd polserv = {_sock, POLLIN, 0};
 	mypoll.push_back(polserv);
-	int i = 0;
+	// int i = 0;
 	std::vector<pollfd>::iterator it;
 	std::vector<pollfd>::iterator ite;
 

@@ -2,6 +2,7 @@
 
 void cap_cmd(Server *serv, Client *cli, std::string arg)
 {
+    (void)serv;
     if (arg == "LS")
         send(cli->get_fd(), "CAP * LS :\r\n", 12, 0);
     else if (arg == "END")
