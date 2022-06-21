@@ -28,7 +28,6 @@ class Channel
 		void del_operator(Client *cli);
 	
 		size_t nb_clients();
-		void print_clients();
 		
 		std::string get_name() const;
 		std::string get_hostname() const;
@@ -45,6 +44,8 @@ class Channel
 		void send_to_chan(Client *from, std::string msg);
 		void rpl_join(Client *from);
 		void rpl_namreply(Client *from);
+		void rpl_kick(Channel *chan, Client *cli, std::string arg);
+
 };
 
 template<class InputIterator, class T>
