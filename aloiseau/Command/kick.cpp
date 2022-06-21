@@ -1,5 +1,7 @@
 #include "command.hpp"
 
+//decoupage arg pour aovir le commentaire et code erreur a renvoyer
+
 void kick_cmd(Server *serv, Client *cli, std::string arg)
 {
     // faire un check si le cli est oprateur
