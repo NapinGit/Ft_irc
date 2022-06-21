@@ -38,7 +38,8 @@ void kick_cmd(Server *serv, Client *cli, std::string arg)
                 // std::cout << "Client found : |" << kick_name << "|\n";
                 (*it).second->del(*itv);
                 std::getline(args, kick_name);
-                 std::string reply = ":" + cli->get_nickname() + " KICK #" + (*it).second->get_name() + " " + (*itv)->get_nickname() + " " + kick_name ; 
+                std::string reply = ":" + cli->get_nickname() + "!" + cli->get_username() +   "@" + cli->get_hostname() + " KICK #" + (*it).second->get_name() + " " + (*itv)->get_nickname() + " " + kick_name ; 
+                //  std::string reply = ":" + cli->get_nickname() + " KICK #" + (*it).second->get_name() + " " + (*itv)->get_nickname() + " " + kick_name ; 
                 (*itv)->send_to_client(reply);
                 //virer le client du chan
                 (*itv)->del_chan(it->second);
