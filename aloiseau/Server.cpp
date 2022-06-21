@@ -251,7 +251,7 @@ void Server::close_con(Client *cli)
 		itchan->second->del(cli);
 		if (itchan->second->nb_clients() == 0)
 		{
-			itchan->second->~Channel();
+			delete (itchan->second);
 			_channels.erase(itchan->first);
 		}	
 
