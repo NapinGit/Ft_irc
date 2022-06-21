@@ -9,7 +9,7 @@ void part_cmd(Server *serv, Client *cli, std::string arg)
     {
         it->second->del(cli);
         cli->del_chan(it->second);
-         std::string reply = /*":" + cli->get_nickname() +*/ "PART :" + arg;
+         std::string reply = ":" + cli->get_nickname() + "!" + cli->get_username() +   "@" + cli->get_hostname() + " PART " + arg  ;
         std::cout << "|"<< reply << "|\n";
         cli->send_to_client(reply);
     }
