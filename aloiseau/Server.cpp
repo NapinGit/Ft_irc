@@ -45,6 +45,7 @@ void Server::init_cmd()
 	cmd.insert(std::make_pair("CAP", &cap_cmd));
 	cmd.insert(std::make_pair("QUIT", &quit_cmd));
 	cmd.insert(std::make_pair("KICK", &kick_cmd));
+	cmd.insert(std::make_pair("PART", &part_cmd));
 }
 
 void Server::start()

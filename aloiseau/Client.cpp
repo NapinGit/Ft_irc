@@ -107,3 +107,11 @@ void Client::send_to_client(std::string &msg)
 	if (send(_fd, buffer.c_str(), buffer.length(), 0) < 0)
 		throw std::runtime_error("Error while sending message to client.");
 }
+
+void Client::del_chan(Channel *ptr)
+{
+    _channels.erase(ptr->get_name());
+    // std::string name = ptr->get_name();
+
+    // std::map<std::string , Channel *>::iterator it = find(_channels.begin(), _channels.end(), ptr);
+}

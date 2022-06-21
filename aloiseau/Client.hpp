@@ -54,6 +54,7 @@ class Client
 		void change_username(std::string &val);
 		void change_hostname(std::string &val);
 		void send_to_client(std::string &msg);
+		void del_chan(Channel *ptr);
 
 };
 #endif

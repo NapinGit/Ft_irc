@@ -45,4 +45,7 @@ class Channel
 		void rpl_namreply(Client *from);
 };
 
+template<class InputIterator, class T>
+InputIterator find (InputIterator first, InputIterator last, const T& val);
+
 #endif
