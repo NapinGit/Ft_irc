@@ -10,8 +10,7 @@ void invite_cmd(Server *serv, Client *cli, std::string arg)
     args.str(arg);
     std::getline(args, nickname, ' ');
     std::getline(args, channel, ' ');
-    channel.erase(0, 1);
-    std::string str = ":" + cli->get_nickname() + " INVITE #" + nickname + " " + channel + "\r\n";
+    std::string str = ":" + cli->get_nickname() + " INVITE " + nickname + " #" + channel + "\r\n";
     
     std::map<int , Client *>::iterator it = serv->clients.begin();
     std::map<int , Client *>::iterator ite = serv->clients.end();
