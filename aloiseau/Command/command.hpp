@@ -32,7 +32,7 @@ void kill_cmd(Server *serv, Client *cli, std::string arg);
 
 */
 
-// void invite_cmd(Server *serv, Client *cli, std::string arg);
+void invite_cmd(Server *serv, Client *cli, std::string arg);
 void mode_cmd(Server *serv, Client *cli, std::string arg);
 void kick_cmd(Server *serv, Client *cli, std::string arg);
 
