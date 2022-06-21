@@ -22,6 +22,8 @@ class Channel
 		
 		void add_operator(Client *cli);
 		void del_operator(Client *cli);
+
+		size_t nb_clients();
 		void print_clients();
 		
 		std::string get_name() const;
