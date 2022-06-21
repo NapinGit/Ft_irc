@@ -12,5 +12,6 @@ void part_cmd(Server *serv, Client *cli, std::string arg)
          std::string reply = ":" + cli->get_nickname() + "!" + cli->get_username() +   "@" + cli->get_hostname() + " PART " + arg  ;
         std::cout << "|"<< reply << "|\n";
         cli->send_to_client(reply);
+        it->second->leave_msg(it->second, cli, arg);
     }
 }

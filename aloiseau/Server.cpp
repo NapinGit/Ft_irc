@@ -251,6 +251,7 @@ void Server::close_con(Client *cli)
 	for (itchan = cli->_channels.begin(), itchane = cli->_channels.end(); itchan != itchane; itchan++)
 	{
 		itchan->second->del(cli);
+		itchan->second->leave_msg(itchan->second, cli, "");
 		if (itchan->second->nb_clients() == 0)
 		{
 			delete (itchan->second);

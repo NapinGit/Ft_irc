@@ -41,6 +41,13 @@ void kick_cmd(Server *serv, Client *cli, std::string arg)
                  std::string reply = ":" + cli->get_nickname() + " KICK #" + (*it).second->get_name() + " " + (*itv)->get_nickname() + " " + kick_name ; 
                 (*itv)->send_to_client(reply);
                 //virer le client du chan
+
+                if (it->second->nb_clients() == 0)
+                {
+                    delete(it->second);
+                    serv->_channels.erase(it);
+                }
+
                 return;
             }
             itv++;

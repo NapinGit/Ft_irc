@@ -19,6 +19,8 @@ class Channel
 		bool present_or_not(Client *cli);
 		bool present_or_not_operators(Client *cli);
 		
+		void leave_msg(Channel *chan, Client *cli, std::string arg);
+
 		void add(Client *cli);
 		void del(Client *cli);
 		

@@ -44,8 +44,23 @@ void Channel::del(Client *cli)
 
 	if (it != _clients.end())
 	{
+		del_operator(cli);
 		//leave channel message to all other clients on channel
 		_clients.erase(find(_clients.begin(), _clients.end(), cli));
+	}
+
+}
+
+void Channel::leave_msg(Channel *chan, Client *cli, std::string arg)
+{
+	std::vector<Client *>::iterator it = _clients.begin();
+	std::vector<Client *>::iterator ite = _clients.end();
+
+	while (it != ite)
+	{
+		std::string reply = ":" + cli->get_nickname() + "!" + cli->get_username() + "@" + cli->get_hostname() + " PART #" + chan->get_name() + " " + arg;
+		(*it)->send_to_client(reply);
+		it++;
 	}
 
 }
