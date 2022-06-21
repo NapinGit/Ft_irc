@@ -57,6 +57,7 @@ class Server
 	void 			cmd_handler(char *buff, Client *cli);
 	void 			get_client_info(pollfd &client);
 	void 			init_cmd();
+	
 
 	/*
 

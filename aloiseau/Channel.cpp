@@ -67,6 +67,18 @@ void Channel::del_operator(Client *cli)
 
 }
 
+size_t Channel::nb_clients()
+{
+	std::vector<Client *>::iterator 	it = _clients.begin();
+	std::vector<Client *>::iterator 	ite = _clients.end();
+	size_t 								nb;
+
+	nb = 0;
+	for(nb = 0; it != ite; it++, nb++)
+	{}
+	std::cout << "nb of clients on channel #" << get_name() << " " << nb << std::endl;
+	return nb;
+}
 
 void Channel::print_clients()
 {

@@ -249,6 +249,12 @@ void Server::close_con(Client *cli)
 	for (itchan = cli->_channels.begin(), itchane = cli->_channels.end(); itchan != itchane; itchan++)
 	{
 		itchan->second->del(cli);
+		if (itchan->second->nb_clients() == 0)
+		{
+			itchan->second->~Channel();
+			_channels.erase(itchan->first);
+		}	
+
 	}
 	// itc->second->add_channel
 	close(cli->get_fd());
@@ -262,6 +268,7 @@ void Server::close_con(Client *cli)
 	{
 		mypoll.erase(itpoll);
 		clients.erase(clients.find(cli->get_fd()));
+		delete(cli);
 	}
 	
 }
