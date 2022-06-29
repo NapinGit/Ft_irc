@@ -173,8 +173,6 @@ void Server::connecting_client()
 	std::string str = host;
 	new_client->change_hostname(str);
 	clients.insert(std::make_pair(new_client->get_fd(), new_client));
-
-	//class client to create and to insert into a client map of Server class
 	read_msg(polclient);
 }
 

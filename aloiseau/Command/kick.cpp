@@ -35,8 +35,8 @@ void kick_cmd(Server *serv, Client *cli, std::string arg)
         {
 
             // std::cout << "ite on client = : |" << (*itv)->get_nickname() << "|\n";
-            // if ((*itv)->get_nickname() == kick_name)
-            // {
+             if ((*itv)->get_nickname() == kick_name)
+             {
                 // std::cout << "Client found : |" << kick_name << "|\n";
                 (*it).second->del(*itv);
                 std::getline(args, kick_name);
@@ -50,11 +50,15 @@ void kick_cmd(Server *serv, Client *cli, std::string arg)
                     delete(it->second);
                     serv->_channels.erase(it);
                 }
+                return;
+             }
+             
 
                 // return;
             // }
             itv++;
         }
-        // std::cout << "Client not found : |" << kick_name << "|\n";
+        std::string reply = "442 " + cli->get_nickname() + ": " + kick_name + " #" + chan_name +  " They are not on that channel";
+		cli->send_to_client(reply);
     }
 }

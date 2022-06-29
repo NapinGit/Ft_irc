@@ -17,6 +17,9 @@ void kill_cmd(Server *serv, Client *cli, std::string arg)
 			}
 			it++;
 		}
+		// std::string reply = ERR_NOSUCHNICK(cli->get_nickname());
+		std::string reply = "401 " + cli->get_nickname();
+		cli->send_to_client(reply);
 		//client not found;
 	}
 	else
