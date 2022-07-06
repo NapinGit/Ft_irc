@@ -9,4 +9,5 @@
 #define ERR_UNKNOWNCOMMAND(nick, command)				"421 " + nick + " " + command + " :Unknown command"
 #define ERR_NICKNAMEINUSE(source, nick)					"422 " + source + " " + nick  + " :Nickname is already in use"
 #define ERR_ALREADYREGISTERED(source)					"462 " + source + " :You may not reregister"
+#define ERR_NOTONCHANNEL(chan)                            "442 " + chan + " You're not on that channel"
 #endif
