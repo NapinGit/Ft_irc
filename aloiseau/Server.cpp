@@ -60,10 +60,10 @@ void Server::start()
 	ite = mypoll.end();
 	while (_alive)
 	{
-		// std::cout << "poll begin" << std::endl;
+		 std::cout << "poll begin" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
-		// std::cout << "poll end" << std::endl;
+		 std::cout << "poll end" << std::endl;
 		it = mypoll.begin();
 		ite = mypoll.end();
 		while(it != ite)
