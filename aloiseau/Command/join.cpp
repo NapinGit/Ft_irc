@@ -47,6 +47,8 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
                 if (!(it->second->get_key() == key))
                 {
                     //PASS DISMATCH
+                    std::string reply = "475 " + cli->get_nickname() + " #" + chan + " :Blabla";
+                    cli->send_to_client(reply);
                     return;
                 }
             }

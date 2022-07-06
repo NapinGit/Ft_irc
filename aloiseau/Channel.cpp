@@ -181,7 +181,17 @@ std::string Channel::get_key() const
 	return(_key);
 }
 
+void Channel::change_key(std::string key)
+{
+	_key = key;
+}
+
 bool Channel::is_secure() const
 {
 	return(_secure);
+}
+
+void Channel::change_secure(bool monbool)
+{
+	_secure = monbool;
 }

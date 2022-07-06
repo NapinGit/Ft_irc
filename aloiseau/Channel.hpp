@@ -36,6 +36,10 @@ class Channel
 		std::string get_key() const;
 		bool is_secure() const;
 
+		void change_key(std::string key);
+		void change_secure(bool mybool);
+
+
 
 		/*std::vector<Client *> 	get_clients()
 		{
