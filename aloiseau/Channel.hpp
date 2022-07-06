@@ -9,6 +9,8 @@ class Channel
 	private:
 		std::string 			_name;
 		std::string 			_hostname;
+		std::string				_key;
+		bool					_secure;
 		
 		std::vector<Client *> 	_operators;
 	public:
@@ -31,6 +33,8 @@ class Channel
 		
 		std::string get_name() const;
 		std::string get_hostname() const;
+		std::string get_key() const;
+		bool is_secure() const;
 
 
 		/*std::vector<Client *> 	get_clients()

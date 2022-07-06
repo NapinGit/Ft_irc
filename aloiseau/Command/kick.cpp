@@ -25,6 +25,11 @@ void kick_cmd(Server *serv, Client *cli, std::string arg)
     }
     else
     {
+        if (!(it->second->present_or_not_operators(cli)))
+        {
+            //err not operator
+            return;
+        }
         std::vector<Client *>::iterator itv =  it->second->_clients.begin();
         std::vector<Client *>::iterator itev =  it->second->_clients.end();
         //decoupage foireux pour le moment;

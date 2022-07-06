@@ -10,7 +10,7 @@ InputIterator find (InputIterator first, InputIterator last, const T& val)
 	return last;
 }
 
-Channel::Channel(std::string name, Client *cli): _name(name)
+Channel::Channel(std::string name, Client *cli): _name(name) , _key(""), _secure(0)
 {
 	_clients.push_back(cli);
 }
@@ -174,4 +174,14 @@ std::string Channel::get_hostname() const
 void Channel::change_hostname(const std::string &val)
 {
 	_hostname = val;
+}
+
+std::string Channel::get_key() const
+{
+	return(_key);
+}
+
+bool Channel::is_secure() const
+{
+	return(_secure);
 }

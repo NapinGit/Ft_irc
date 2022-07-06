@@ -16,10 +16,8 @@ void privmsg_cmd(Server *serv, Client *cli, std::string arg)
     
     //message to channel 
     //else: message to client
-    std::cout << "name is" << name << std::endl;
     if (name.c_str()[0] == '#')
     {
-        std::cout << "name is if" << name << std::endl;
         name.erase(0, 1);
         //cherche si le cannal existe
         itchan = serv->_channels.find(name);
@@ -31,26 +29,23 @@ void privmsg_cmd(Server *serv, Client *cli, std::string arg)
     }
     else
     {
-        std::cout << "name is else" << name << std::endl;
         itclient = serv->clients.begin();
         itcliente = serv->clients.end();
         //cherche le client sil existe 
-        std::cout << "name is elscqcqcqe" << name << std::endl;
-        while (itclient->second->get_nickname() != name && itclient != itcliente)
+        while ( itclient != itcliente && itclient->second->get_nickname() != name )
             itclient++;
-             std::cout << "name is elsearaaeagezgergregehrehc" << name << std::endl;
         //sil nexiste pas, RPL ERR PRIVMSG ??
         if (itclient == itcliente)
         {
+            std::string reply = "401 " + cli->get_nickname() /*+ " :No such nick/channel"*/ ;
+            cli->send_to_client(reply);
             return ;
         }
-        std::cout << "name is elsearaaeagezgergregehrehc" << name << std::endl;
         //envoi du message au client destinataire (itclient)
         std::getline(args, msg);
         std::string str;
         str = ":" + cli->get_nickname() + "!" + cli->get_username() + "@" + cli->get_hostname() + " PRIVMSG " + itclient->second->get_nickname() + " " + msg + "\r\n";
         send(itclient->second->get_fd(), str.c_str(), str.length(), 0);
-        std::cout << "name is elscqcqcqe" << name << std::endl;
     }
     std::cout << name << std::endl;
 }
