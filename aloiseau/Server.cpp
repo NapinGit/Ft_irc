@@ -53,7 +53,7 @@ void Server::start()
 {
 	pollfd polserv = {_sock, POLLIN, 0};
 	mypoll.push_back(polserv);
-	// int i = 0;
+	//  int i = 0;
 	std::vector<pollfd>::iterator it;
 	std::vector<pollfd>::iterator ite;
 
@@ -93,6 +93,9 @@ void Server::start()
 			}
 			it++;
 		}
+		// i++;
+		// if ( i == 7)
+			// throw std::runtime_error("i reach 10");
 	}
 }
 
@@ -259,7 +262,6 @@ void Server::close_con(Client *cli)
 	}
 	// itc->second->add_channel
 	close(cli->get_fd());
-
 	itpoll = mypoll.begin();
 	itpolle = mypoll.end();
 
@@ -267,6 +269,7 @@ void Server::close_con(Client *cli)
 		itpoll++;
 	if (itpoll != itpolle)
 	{
+		// close(cli->get_fd());
 		mypoll.erase(itpoll);
 		clients.erase(clients.find(cli->get_fd()));
 		delete(cli);
