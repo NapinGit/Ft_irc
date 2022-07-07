@@ -195,3 +195,20 @@ void Channel::change_secure(bool monbool)
 {
 	_secure = monbool;
 }
+
+Client	*Channel::find_client(std::string client)
+{
+	std::vector<Client *>::iterator it;
+	std::vector<Client *>::iterator ite;
+
+	it = _clients.begin();
+	ite = _clients.end();
+
+	while (it != ite)
+	{
+		if ((*it)->get_nickname() == client)
+			return ((*it));
+		it++;
+	}
+	return (NULL);
+}

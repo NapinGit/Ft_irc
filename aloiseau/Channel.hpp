@@ -54,6 +54,8 @@ class Channel
 		void rpl_namreply(Client *from);
 		void rpl_kick(Channel *chan, Client *cli, std::string arg);
 
+		Client	*find_client(std::string client);
+
 };
 
 template<class InputIterator, class T>
