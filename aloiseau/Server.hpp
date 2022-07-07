@@ -1,6 +1,6 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
-
+#include <errno.h>  
 # include <iostream>
 # include <sys/socket.h>
 # include <sys/types.h> 
@@ -24,7 +24,7 @@
 # include "macro.hpp"
 # include "Command/command.hpp"
 
-# define MAX_CON 1000
+# define MAX_CON 100
 
 class Server
 {

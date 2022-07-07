@@ -60,10 +60,10 @@ void Server::start()
 	ite = mypoll.end();
 	while (_alive)
 	{
-		 std::cout << "poll begin" << std::endl;
+		//   std::cout << "poll begin" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
-		 std::cout << "poll end" << std::endl;
+		//   std::cout << "poll end" << std::endl;
 		it = mypoll.begin();
 		ite = mypoll.end();
 		while(it != ite)
@@ -74,7 +74,17 @@ void Server::start()
 			}
 			else if ((it->revents & POLLHUP) == POLLHUP)
 			{
-				close_con(it);
+				try
+				{
+					close_con(it);
+
+				}
+				catch(const std::exception& e)
+				{
+					
+				}
+				
+				std::cout << "client disconnected" << std::endl;
 				//deco(it);
 				/*  deconnexion */
 				break;
@@ -84,12 +94,21 @@ void Server::start()
 				if (it->fd == _sock)
 				{
 					/* cree une nouvelle connexion */
+					// std::cout << "nb client = "<< clients.size() << std::endl;
 					connecting_client();
 					std::cout << "New client connected" << std::endl;
 					break;
 				}
 				/* analyse de l'entree*/
-				read_msg(*it.base());
+				try
+				{
+					read_msg(*it.base());
+				}
+				catch(const std::exception& e)
+				{
+				}
+				
+				
 			}
 			it++;
 		}
@@ -153,8 +172,13 @@ void Server::socket_init()
 void Server::get_client_info(pollfd &client)
 {
 	char buffer[100];
-	if (recv(client.fd, buffer, 99, 0) < 0)
-		throw std::runtime_error("Error while reading buffer from client.");
+	bzero(buffer, 100);
+	if (recv(client.fd, buffer, 99, 0) < 0) {
+			if (errno != EWOULDBLOCK)
+				throw std::runtime_error("Error while reading buffer from client.");
+		}
+	//if (recv(client.fd, buffer, 99, 0) < 0)
+//		throw std::runtime_error("Error while reading buffer from client.");
 }
 
 void Server::connecting_client()
@@ -181,15 +205,21 @@ void Server::connecting_client()
 
 void Server::read_msg(pollfd &client)
 {
-	char buffer[1000];
+	 char buffer[1000];
 	std::string st;
 	std::map<int, Client *>::iterator it;
 
-	bzero(&buffer, sizeof(buffer));
-	if (recv(client.fd, buffer, 999, 0) < 0)
-		throw std::runtime_error("Error while reading buffer from client.");
+	 bzero(&buffer, sizeof(buffer));
+	// char buffer[100];
+	bzero(buffer, 1000);
+	if (recv(client.fd, buffer, 999, 0) < 0) {
+			if (errno != EWOULDBLOCK)
+				throw std::runtime_error("Error while reading buffer from client.");
+		}
+	//  if (recv(client.fd, buffer, 999, 0) < 0)
+		//  throw std::runtime_error("Error while reading buffer from client.");
 	st = buffer;
-	std::cout << buffer;
+	 std::cout << buffer;
 	it = clients.find(client.fd);
 	cmd_handler(buffer, it->second);
 }
