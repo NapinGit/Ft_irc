@@ -2,7 +2,6 @@
 
 void pass_cmd(Server *serv, Client *cli, std::string arg)
 {
-    //already registered a metre en place
     if (cli->get_auth() == 1)
     {
         std::string reply = ERR_ALREADYREGISTERED(cli->get_nickname());
