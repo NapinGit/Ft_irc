@@ -55,6 +55,7 @@ void Server::start()
 	ite = mypoll.end();
 	while (_alive)
 	{
+		std::cout << "poll start" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
 		it = mypoll.begin();
@@ -163,6 +164,8 @@ void Server::read_msg(pollfd &client)
 			throw std::runtime_error("Error while reading buffer from client.");
 	}
 	st = buffer;
+	std::cout << st << std::endl;
+
 	it = clients.find(client.fd);
 	cmd_handler(buffer, it->second);
 }
