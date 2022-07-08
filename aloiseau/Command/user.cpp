@@ -16,20 +16,14 @@ void user_cmd(Server *serv, Client *cli, std::string arg)
     (void)serv;
     args.str(arg);
     std::getline(args, name, ' ');
-    // std::cout << "ici " << std::endl << name << std::endl;
     cli->change_username(name);
     name.clear();
 
     std::getline(args, name, ' ');
-    // std::cout << name << std::endl;
     name.clear();
 
     std::getline(args, name, ' ');
-    // std::cout << name << std::endl;
-    // cli->change_hostname(name);
     name.clear();
     put_operator(cli);
 
-    //get_realname of client ??; take the next getline
-    // std::getline(args, name, ' ');
 }
