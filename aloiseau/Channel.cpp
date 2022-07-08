@@ -3,9 +3,11 @@
 template<class InputIterator, class T>
 InputIterator find (InputIterator first, InputIterator last, const T& val)
 {
-	while (first!=last) {
-	if (*first==val) return first;
-	++first;
+	while (first != last) 
+	{
+		if (*first == val)
+			return first;
+		++first;
 	}
 	return last;
 }
@@ -45,7 +47,6 @@ void Channel::del(Client *cli)
 	if (it != _clients.end())
 	{
 		del_operator(cli);
-		//leave channel message to all other clients on channel
 		_clients.erase(find(_clients.begin(), _clients.end(), cli));
 	}
 }
@@ -87,10 +88,7 @@ void Channel::del_operator(Client *cli)
 	std::vector<Client *>::iterator it = find(_operators.begin(), _operators.end(), cli);
 
 	if (it != _operators.end())
-	{
 		_operators.erase(find(_operators.begin(), _operators.end(), cli));
-	}
-
 }
 
 size_t Channel::nb_clients()
@@ -158,8 +156,6 @@ void Channel::rpl_namreply(Client *from)
 	}
 	list = list + "\r\n";
 	send(from->get_fd(), list.c_str(), list.length(), 0);
-
-	//end list
 	list.clear();
 	list = ":" + _hostname + " 366 " + from->get_nickname() + " #" + _name +  " :End of NAMES list\r\n";
 	send(from->get_fd(), list.c_str(), list.length(), 0);
