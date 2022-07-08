@@ -1,4 +1,4 @@
-#include "command.hpp"
+#include "../../include/command.hpp"
 
 void privmsg_cmd(Server *serv, Client *cli, std::string arg)
 {

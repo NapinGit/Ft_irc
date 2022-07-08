@@ -1,4 +1,4 @@
-#include "Channel.hpp"
+#include "../include/Channel.hpp"
 
 template<class InputIterator, class T>
 InputIterator find (InputIterator first, InputIterator last, const T& val)

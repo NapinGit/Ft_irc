@@ -3,9 +3,9 @@
 
 class Server;
 class Client;
-#include "../Server.hpp"
-#include "../Client.hpp"
-#include "../Channel.hpp"
+#include "Server.hpp"
+#include "Client.hpp"
+#include "Channel.hpp"
 
 /*
 

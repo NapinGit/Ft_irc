@@ -22,7 +22,7 @@
 # include "Client.hpp"
 # include "Channel.hpp"
 # include "macro.hpp"
-# include "Command/command.hpp"
+# include "command.hpp"
 
 # define MAX_CON 100
 

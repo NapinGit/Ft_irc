@@ -1,4 +1,4 @@
-#include "command.hpp"
+#include "../../include/command.hpp"
 
 void put_operator(Client *cli)
 {
