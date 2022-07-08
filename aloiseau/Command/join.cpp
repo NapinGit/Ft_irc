@@ -35,13 +35,11 @@ void join_cmd(Server *serv, Client *cli, std::string arg)
                 std::getline(buffer, key, ' ');
                 if (!(it->second->get_key() == key))
                 {
-                    //PASS DISMATCH
                     std::string reply = "475 " + cli->get_nickname() + " #" + chan + " :Chan password dismatch";
                     cli->send_to_client(reply);
                     return;
                 }
             }
-            std::cout << "add new user to channel " << chan << std::endl;
             (it->second)->add(cli);
             cli->add_channel((it->second));
             (it->second)->rpl_join(cli);

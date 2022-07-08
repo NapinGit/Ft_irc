@@ -4,7 +4,7 @@ OBJ_DIR = obj/
 OBJ_DIR_D = obj/Command
 #-Werror -Wextra -Wall -std=c++98
 FLAGS	= -g -Werror -Wextra -Wall -std=c++98
-OBJ	=  main.cpp Server.cpp Client.cpp Channel.cpp Command/invite.cpp Command/join.cpp Command/kick.cpp Command/kill.cpp Command/mode.cpp Command/nick.cpp Command/part.cpp Command/pass.cpp Command/pong.cpp Command/privmsg.cpp Command/quit.cpp Command/user.cpp Command/utils.cpp Command/cap.cpp
+OBJ	=  main.cpp Server.cpp Client.cpp Channel.cpp Command/invite.cpp Command/join.cpp Command/kick.cpp Command/kill.cpp Command/mode.cpp Command/nick.cpp Command/part.cpp Command/pass.cpp Command/pong.cpp Command/privmsg.cpp Command/quit.cpp Command/user.cpp Command/cap.cpp
 SUPP_DIR = rm -rf $(OBJ_DIR)
 SUPP_NAME = rm -f $(NAME1)
 DEBUG = valgrind

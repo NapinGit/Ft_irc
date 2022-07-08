@@ -28,5 +28,3 @@ int main(int ac, char **av)
         return 1;
     }
 }
-
-//new client not deleted after closing the connection of the server test: /KILL fgfgf

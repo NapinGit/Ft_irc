@@ -11,6 +11,7 @@ void cap_cmd(Server *serv, Client *cli, std::string arg)
         {
             std::string str = "001 " + cli->get_nickname() + " Welcome to my Internet Relay 42Network\r\n";
          	send(cli->get_fd(), str.c_str(), str.length(), 0);
+            std::cout << "New client connected with nickname :" << cli->get_nickname() << std::endl;
         }
         else
         {
