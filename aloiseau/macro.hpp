@@ -10,4 +10,7 @@
 #define ERR_NICKNAMEINUSE(source, nick)					"422 " + source + " " + nick  + " :Nickname is already in use"
 #define ERR_ALREADYREGISTERED(source)					"462 " + source + " :You may not reregister"
 #define ERR_NOTONCHANNEL(chan)                            "442 " + chan + " You're not on that channel"
+#define ERR_NOSUCHCHANNEL(source, channel)				"403 " + source + " " + channel + " :No such channel"
+#define ERR_CHANOPRIVSNEEDED(source, channel)			"482 " + source + " " + channel + " :You're not channel operator"
+#define ERR_ALREADYREGISTERED(source)					"462 " + source + " :You may not reregister"
 #endif

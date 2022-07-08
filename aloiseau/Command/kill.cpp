@@ -4,7 +4,6 @@ void kill_cmd(Server *serv, Client *cli, std::string arg)
 {
 	if (cli->get_operator())
 	{
-		//shall get client
 		std::map<int, Client *>::iterator it = serv->clients.begin();
 		std::map<int, Client *>::iterator ite = serv->clients.end();
 		std::string name = arg.substr(0 , arg.find(" "));
@@ -17,15 +16,12 @@ void kill_cmd(Server *serv, Client *cli, std::string arg)
 			}
 			it++;
 		}
-		// std::string reply = ERR_NOSUCHNICK(cli->get_nickname());
 		std::string reply = "401 " + cli->get_nickname();
 		cli->send_to_client(reply);
-		//client not found;
 	}
 	else
 	{
 		std::string reply = ":Permission Denied- You're not an IRC operator" ;
 		cli->send_to_client(reply);
-		//not operator err no privilege
 	}
 }
