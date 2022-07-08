@@ -2,13 +2,18 @@
 
 void pass_cmd(Server *serv, Client *cli, std::string arg)
 {
-    // if (serv->get_password() == arg)
-    // {
+    if (cli->get_auth() == 1)
+    {
+        std::string reply = ERR_ALREADYREGISTERED(cli->get_nickname());
+        cli->send_to_client(reply);
+    }
+    if (serv->get_password() == arg)
+    {
         cli->change_auth(true);
-        std::cout << "pass = "<< arg << std::endl;
-    // }
-    // else
-    // {
-        //error password does not match
-    // }
+    }
+    else
+    {
+        std::string reply = ERR_PASSWDMISMATCH(cli->get_nickname());
+        cli->send_to_client(reply);
+    }
 }

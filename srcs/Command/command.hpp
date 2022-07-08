@@ -5,6 +5,7 @@ class Server;
 class Client;
 #include "../Server.hpp"
 #include "../Client.hpp"
+#include "../Channel.hpp"
 
 /*
 
@@ -12,6 +13,7 @@ class Client;
 
 */
 
+ void cap_cmd(Server *serv, Client *cli, std::string arg);
  void pass_cmd(Server *serv, Client *cli, std::string arg);
  void nick_cmd(Server *serv, Client *cli, std::string arg);
 
@@ -30,10 +32,9 @@ void kill_cmd(Server *serv, Client *cli, std::string arg);
 
 */
 
-// void invite_cmd(Server *serv, Client *cli, std::string arg);
-// void mode_cmd(Server *serv, Client *cli, std::string arg);
-// void kick_cmd(Server *serv, Client *cli, std::string arg);
-// void topic_cmd(Server *serv, Client *cli, std::string arg);
+void invite_cmd(Server *serv, Client *cli, std::string arg);
+void mode_cmd(Server *serv, Client *cli, std::string arg);
+void kick_cmd(Server *serv, Client *cli, std::string arg);
 
 /*
 
@@ -41,11 +42,13 @@ void kill_cmd(Server *serv, Client *cli, std::string arg);
 
 */
 
-// void join_cmd(Server *serv, Client *cli, std::string arg);
-// void privmsg_cmd(Server *serv, Client *cli, std::string arg);
- void user_cmd(Server *serv, Client *cli, std::string arg);
-// void ping_cmd(Server *serv, Client *cli, std::string arg);
-// void quit_cmd(Server *serv, Client *cli, std::string arg);
+void join_cmd(Server *serv, Client *cli, std::string arg);
+void privmsg_cmd(Server *serv, Client *cli, std::string arg);
+void user_cmd(Server *serv, Client *cli, std::string arg);
+void ping_cmd(Server *serv, Client *cli, std::string arg);
+void pong_cmd(Server *serv, Client *cli, std::string arg);
+void quit_cmd(Server *serv, Client *cli, std::string arg);
+void part_cmd(Server *serv, Client *cli, std::string arg);
 
 
 #endif
