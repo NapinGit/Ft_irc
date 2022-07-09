@@ -34,6 +34,7 @@ class Channel
 		void 		change_secure(bool mybool);
 		void 		change_hostname(const std::string &val);
 		void 		send_to_chan(Client *from, std::string msg);
+		void 		send_to_chan_notice(Client *from, std::string msg);
 		void 		rpl_join(Client *from);
 		void 		rpl_namreply(Client *from);
 		void 		rpl_kick(Channel *chan, Client *cli, std::string arg);

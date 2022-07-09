@@ -24,6 +24,7 @@ class Client;
 */
 
 void kill_cmd(Server *serv, Client *cli, std::string arg);
+void notice_cmd(Server *serv, Client *cli, std::string arg);
 
 
 /*

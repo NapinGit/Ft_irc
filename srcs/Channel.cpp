@@ -125,6 +125,22 @@ void Channel::send_to_chan(Client *from, std::string msg)
 	}
 }
 
+void Channel::send_to_chan_notice(Client *from, std::string msg)
+{
+	std::vector<Client *>::iterator it = _clients.begin();
+	std::vector<Client *>::iterator ite = _clients.end();
+
+	while (it != ite)
+	{
+		if (from != (*it))
+		{
+			std::string str = ":" + from->get_nickname() + "!" + from->get_username() + "@" + from->get_hostname() + " NOTICE #" + _name + " :" + msg + "\r\n";
+			send((*it)->get_fd(), str.c_str(), str.length(), 0);
+		}
+		it++;
+	}
+}
+
 void Channel::rpl_join(Client *from)
 {
 	std::vector<Client *>::iterator it = _clients.begin();

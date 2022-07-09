@@ -6,7 +6,7 @@ OBJ_DIR_E = obj/srcs/Command
 INCLUDE =  include/Server.hpp include/Channel.hpp include/Client.hpp include/macro.hpp
 #-Werror -Wextra -Wall -std=c++98
 FLAGS	= -g -Werror -Wextra -Wall -std=c++98
-OBJ	= srcs/main.cpp srcs/Server.cpp srcs/Client.cpp srcs/Channel.cpp srcs/Command/invite.cpp srcs/Command/join.cpp srcs/Command/kick.cpp srcs/Command/kill.cpp srcs/Command/mode.cpp srcs/Command/nick.cpp srcs/Command/part.cpp srcs/Command/pass.cpp srcs/Command/pong.cpp srcs/Command/privmsg.cpp srcs/Command/quit.cpp srcs/Command/user.cpp srcs/Command/cap.cpp
+OBJ	= srcs/main.cpp srcs/Server.cpp srcs/Client.cpp srcs/Channel.cpp srcs/Command/invite.cpp srcs/Command/join.cpp srcs/Command/kick.cpp srcs/Command/kill.cpp srcs/Command/mode.cpp srcs/Command/nick.cpp srcs/Command/part.cpp srcs/Command/pass.cpp srcs/Command/pong.cpp srcs/Command/privmsg.cpp srcs/Command/quit.cpp srcs/Command/user.cpp srcs/Command/cap.cpp srcs/Command/notice.cpp
 SUPP_DIR = rm -rf $(OBJ_DIR)
 SUPP_NAME = rm -f $(NAME1)
 DEBUG = valgrind
