@@ -17,7 +17,6 @@ void cap_cmd(Server *serv, Client *cli, std::string arg)
         {
             
          	send(cli->get_fd(), "Error auth\r\n", 12, 0);
-            serv->close_con(cli);
         }
     }
 }

@@ -54,18 +54,14 @@ void Server::start()
 	pollfd polserv = {_sock, POLLIN, 0};
 	mypoll.push_back(polserv);
 	ite = mypoll.end();
-	std::cout << "poll_in = " << POLL_IN << std::endl;
-	std::cout << "poll_hup = " << POLL_HUP << std::endl;
 	while (_alive)
 	{
-		std::cout << "begin" << std::endl;
 		if (poll(mypoll.begin().base(), mypoll.size() , -1) < 0)
 			throw std::runtime_error("Poll: Error with poll and fd");
 		it = mypoll.begin();
 		ite = mypoll.end();
 		while(it != ite)
 		{
-			std::cout << it->revents << std::endl;
 			if ((it->revents & POLLHUP) == POLLHUP)
 			{
 				try
@@ -85,7 +81,6 @@ void Server::start()
 				}
 				try
 				{
-					std::cout << "readmsg" << std::endl;
 					read_msg(*it.base());
 				}
 				catch(const std::exception& e)
@@ -173,7 +168,7 @@ void Server::read_msg(pollfd &client)
 		close_con(it->second);
 		return ;
 	}
-	std::cout << buffer << std::endl;
+	// std::cout << buffer << std::endl;
 	cmd_handler(buffer, it->second);
 }
 
