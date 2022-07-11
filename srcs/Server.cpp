@@ -44,6 +44,7 @@ void Server::init_cmd()
 	cmd.insert(std::make_pair("PART", &part_cmd));
 	cmd.insert(std::make_pair("INVITE", &invite_cmd));
 	cmd.insert(std::make_pair("NOTICE", &notice_cmd));
+	cmd.insert(std::make_pair("WHO", &who_cmd));
 }
 
 void Server::start()
@@ -168,7 +169,7 @@ void Server::read_msg(pollfd &client)
 		close_con(it->second);
 		return ;
 	}
-	// std::cout << buffer << std::endl;
+	std::cout << buffer << std::endl;
 	cmd_handler(buffer, it->second);
 }
 
